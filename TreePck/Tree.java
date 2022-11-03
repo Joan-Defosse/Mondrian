@@ -1,46 +1,26 @@
 package TreePck;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.Color;
 
 public class Tree {
 
-    public final static boolean X = true; // abscisses
-    public final static boolean Y = false; // ordonnées
-    private final boolean axis; // vrai = axe des abscisses, faux = axe des ordonnées
+    public final static Boolean X = true; // abscisses
+    public final static Boolean Y = false; // ordonnées
+    private final Boolean axis; // vrai = axe des abscisses, faux = axe des ordonnées
     private final Integer val;
     private final Color col;
     private Tree L, R;
 
-    public Tree(boolean axis) {
+    public Tree(Color col) {
 
-        this.axis = axis;
-        val = null;
-        col = null;
-        L = null;
-        R = null;
-    }
-
-    public Tree(boolean axis, Integer val) {
-
-        this.axis = axis;
-        this.val = val;
-        col = null;
-        L = null;
-        R = null;
-    }
-
-    public Tree(boolean axis, Color col) {
-
-        this.axis = axis;
+        axis = null;
         val = null;
         this.col = col;
         L = null;
         R = null;
     }
 
-    public Tree(boolean axis, Integer val, Color col) {
+    public Tree(Boolean axis, Integer val, Color col) {
 
         this.axis = axis;
         this.val = val;
@@ -49,7 +29,7 @@ public class Tree {
         R = null;
     }
 
-    public Tree(boolean axis, Integer val, Color col, Tree L, Tree R) {
+    public Tree(Boolean axis, Integer val, Color col, Tree L, Tree R) {
 
         this.axis = axis;
         this.val = val;
@@ -74,28 +54,45 @@ public class Tree {
         }
     }
 
-    public Tree(@NotNull Tree other) {
+    public Tree(Tree T) {
 
-        axis = other.axis;
-        val = other.val;
-        col = other.col;
+        axis = T.axis;
+        val = T.val;
+        col = T.col;
 
-        if (other.L != null) {
+        if (T.L != null) {
 
-            L = new Tree(other.L);
+            L = new Tree(T.L);
         }
         else  {
 
             L = null;
         }
 
-        if (other.R != null) {
+        if (T.R != null) {
 
-            R = new Tree(other.R);
+            R = new Tree(T.R);
         }
         else  {
 
             R = null;
         }
+    }
+
+    public boolean isLeaf() {
+
+        return (col != null && L == null && R == null && val == null && axis == null);
+    }
+    public static boolean isLeaf(Tree T) {
+
+        return T.isLeaf();
+    }
+
+    public void add(boolean axis, Integer val, Color col) {
+
+    }
+
+    public void add(boolean axis, Integer val) {
+
     }
 }
