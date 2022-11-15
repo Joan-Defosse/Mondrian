@@ -6,23 +6,32 @@ public class Tree {
 
     public final static Boolean AxisX = true; // abscisses
     public final static Boolean AxisY = false; // ordonnées
-    private Color col;
+    private Color color;
     private Boolean axis; // vrai = axe des abscisses, faux = axe des ordonnées
     private Point P;
     private Tree L, R;
+    private TreeSettings settings;
 
-    public Tree(Color col) {
+    private int height;
+    private int width;
 
-        this.col = col;
+
+    // Constructor ========================================================================//
+    public Tree(Color color, TreeSettings settings, int height, int width) {
+
+        this.color = color;
+        this.settings = settings;
+        this.height = height;
+        this.width = width;
         axis = null;
         P = null;
         L = null;
         R = null;
     }
 
-    public Tree(Color col, Boolean axis, Point P) {
+    public Tree(Color color, Boolean axis, Point P) {
 
-        this.col = col;
+        this.color = color;
         this.axis = axis;
 
         if (P != null) {
@@ -38,18 +47,18 @@ public class Tree {
         R = null;
     }
 
-    public Tree(Color col, Boolean axis, Integer X, Integer Y) {
+    public Tree(Color color, Boolean axis, Integer X, Integer Y) {
 
-        this.col = col;
+        this.color = color;
         this.axis = axis;
         this.P = new Point(X, Y);
         L = null;
         R = null;
     }
 
-    public Tree(Color col, Boolean axis, Point P, Tree L, Tree R) {
+    public Tree(Color color, Boolean axis, Point P, Tree L, Tree R) {
 
-        this.col = col;
+        this.color = color;
         this.axis = axis;
 
         if (P != null) {
@@ -80,9 +89,9 @@ public class Tree {
         }
     }
 
-    public Tree(Color col, Boolean axis, Integer X, Integer Y, Tree L, Tree R) {
+    public Tree(Color color, Boolean axis, Integer X, Integer Y, Tree L, Tree R) {
 
-        this.col = col;
+        this.color = color;
         this.axis = axis;
         this.P = new Point(X, Y);
 
@@ -107,7 +116,7 @@ public class Tree {
 
     public Tree(Tree T) {
 
-        col = T.col;
+        color = T.color;
         axis = T.axis;
 
         if (T.P != null) {
@@ -137,10 +146,11 @@ public class Tree {
             R = null;
         }
     }
+    //========================================================================================//
 
     public boolean isLeaf() {
 
-        return (col != null && L == null && R == null && P == null && axis == null);
+        return (color != null && L == null && R == null && P == null && axis == null);
     }
     public static boolean isLeaf(Tree T) {
 
@@ -154,4 +164,11 @@ public class Tree {
     public void add(Point P) {
 
     }
+
+
+    public Color getColor(){
+        return color;
+    }
+
+
 }
