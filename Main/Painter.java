@@ -1,7 +1,8 @@
 package Main;
 
 import TreePck.*;
-import java.awt.*;
+import java.awt.Color;
+import java.util.Random;
 
 public class Painter {
 
@@ -25,4 +26,46 @@ public class Painter {
         
         return tree;
     }
+
+    public BoolIntPair chooseDivision(int height, int width, double proportionCut) {
+
+        Boolean axis = chooseAxis(height, width);
+        int result;
+
+        if (axis = Tree.AxisX) {
+
+            result = chooseCoordinate(width, proportionCut);
+        }
+        else {
+
+            result = chooseCoordinate(height, proportionCut);
+        }
+
+        return new BoolIntPair(axis, result);
+    }
+    private static Boolean chooseAxis(int height, int width) {
+
+        int ProbaX = width / width + height;
+
+        if (Math.random() > ProbaX) {
+
+            return Tree.AxisY;
+        }
+
+        return Tree.AxisX;
+    }
+
+    private static int chooseCoordinate(int size, double proportionCut) {
+
+        double rand = Math.random();
+
+        while(rand < proportionCut || rand > 1 - proportionCut)  {
+
+            rand = Math.random();
+        }
+
+        return (int)(size * rand);
+    }
+
+
 }
