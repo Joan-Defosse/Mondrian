@@ -40,4 +40,11 @@ public class Position {
     public void setUp(int up) {
         this.up = up;
     }
+
+    public int getHeight() {
+        return (this.up - this.down);
+    }
+    public int getWidth() {
+        return (this.right - this.left);
+    }
 }
