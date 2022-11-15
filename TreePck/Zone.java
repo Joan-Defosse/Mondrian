@@ -1,12 +1,12 @@
 package TreePck;
 
-public class Position {
+public class Zone {
     private int left;
     private int right;
     private int down;
     private int up;
 
-    public Position(int left, int right, int down, int up) {
+    public Zone(int left, int right, int down, int up) {
 
         this.left = left;
         this.right = right;

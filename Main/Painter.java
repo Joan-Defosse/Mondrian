@@ -21,7 +21,7 @@ public class Painter {
     }
     public static Tree initTree(int height, int width, TreeSettings settings) {
 
-        Tree T = new Tree(settings, Color.WHITE, new Position(0, width, 0,  height));
+        Tree T = new Tree(settings, Color.WHITE, new Zone(0, width, 0,  height));
 
         BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
         T.setAxis(bip.axis);
