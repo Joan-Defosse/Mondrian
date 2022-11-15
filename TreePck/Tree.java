@@ -9,21 +9,18 @@ public class Tree {
 
     private final TreeSettings settings;
     private Color color;
-    private int left, right, down, up;
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
+    private Position position;
 
     // Constructors ========================================================================//
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up) {
+    public Tree(TreeSettings settings, Color color, Position position) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
 
         axis = null;
         lineCut = null;
@@ -31,14 +28,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut) {
+    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -46,14 +40,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut, Tree L, Tree R) {
+    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut, Tree L, Tree R) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -80,10 +71,7 @@ public class Tree {
 
         settings = T.settings;
         color = T.color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = T.position;
         axis = T.axis;
         lineCut = T.lineCut;
 
@@ -112,12 +100,12 @@ public class Tree {
     public Color getColor(){
         return color;
     }
-    public int getHeight() { return up - down; }
-    public int getWidth() { return right - left; }
-    public int getLeft() { return left; }
-    public int getRight() { return right; }
-    public int getDown() { return down; }
-    public int getUp() { return up; }
+    public int getHeight() { return position.getHeight(); }
+    public int getWidth() { return position.getWidth(); }
+    public int getLeft() { return position.getLeft(); }
+    public int getRight() { return position.getRight(); }
+    public int getDown() { return position.getDown(); }
+    public int getUp() { return position.getUp(); }
     public Boolean getAxis() { return axis; }
     public Integer getLineCut() { return lineCut; }
     public Tree getL() { return L; }

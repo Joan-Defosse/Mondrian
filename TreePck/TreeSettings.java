@@ -18,11 +18,11 @@ public class TreeSettings {
     }
 
     // Getters
-    int getNbLeaves() { return nbLeaves; }
-    double getSameColorProb() {
+    public int getNbLeaves() { return nbLeaves; }
+    public double getSameColorProb() {
         return sameColorProb;
     }
-    double getCutProportion() { return cutProportion; }
-    int getMinDimensionCut() { return minDimensionCut; }
-    int getSeed() { return seed; }
+    public double getCutProportion() { return cutProportion; }
+    public int getMinDimensionCut() { return minDimensionCut; }
+    public int getSeed() { return seed; }
 }
