@@ -100,6 +100,7 @@ public class Tree {
     public Color getColor(){
         return color;
     }
+    public double getWeight() { return zone.getWeight(); }
     public int getHeight() { return zone.getHeight(); }
     public int getWidth() { return zone.getWidth(); }
     public int getLeft() { return zone.getLeft(); }

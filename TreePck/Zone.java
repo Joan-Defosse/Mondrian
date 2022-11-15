@@ -17,35 +17,36 @@ public class Zone {
     public int getLeft() {
         return left;
     }
-    public void setLeft(int left) {
-        this.left = left;
-    }
-
     public int getRight() {
         return right;
     }
-    public void setRight(int right) {
-        this.right = right;
-    }
-
     public int getDown() {
         return down;
     }
-    public void setDown(int down) {
-        this.down = down;
-    }
-
     public int getUp() {
         return up;
     }
-    public void setUp(int up) {
-        this.up = up;
-    }
-
     public int getHeight() {
         return (up - down);
     }
     public int getWidth() {
         return (right - left);
+    }
+    public double getWeight() {
+
+        return (getWidth() * getHeight()) / Math.pow(getWidth() + getHeight(), 1.5);
+    }
+
+    public void setLeft(int left) {
+        this.left = left;
+    }
+    public void setRight(int right) {
+        this.right = right;
+    }
+    public void setDown(int down) {
+        this.down = down;
+    }
+    public void setUp(int up) {
+        this.up = up;
     }
 }
