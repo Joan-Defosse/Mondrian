@@ -22,7 +22,7 @@ public class Painter {
     public static Tree initTree(int height, int width, int nbLeaves, double sameColorProb, double proportionCut, int minDimensionCut, int seed) {
 
         TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, proportionCut, minDimensionCut, seed);
-        Tree tree = new Tree(settings, Color.WHITE, 0, height, 0,  width);
+        Tree tree = new Tree(settings, Color.WHITE, new Position(0, height, 0,  width));
         
         return tree;
     }

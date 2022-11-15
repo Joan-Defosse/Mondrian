@@ -13,17 +13,15 @@ public class Tree {
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
+    private Position position;
 
     // Constructors ========================================================================//
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up) {
+    public Tree(TreeSettings settings, Color color, Position position) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
 
         axis = null;
         lineCut = null;
@@ -31,14 +29,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut) {
+    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -46,14 +41,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut, Tree L, Tree R) {
+    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut, Tree L, Tree R) {
 
         this.settings = settings;
         this.color = color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = position;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -80,10 +72,7 @@ public class Tree {
 
         settings = T.settings;
         color = T.color;
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.up = up;
+        this.position = T.position;
         axis = T.axis;
         lineCut = T.lineCut;
 
