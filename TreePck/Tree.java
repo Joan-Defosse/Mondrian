@@ -6,94 +6,56 @@ public class Tree {
 
     public final static Boolean AxisX = true; // abscisses
     public final static Boolean AxisY = false; // ordonnées
+
+    private final TreeSettings settings;
     private Color color;
-    private Boolean axis; // vrai = axe des abscisses, faux = axe des ordonnées
-    private Point P;
+    private int left, right, down, up;
+    private Boolean axis;
+    private Integer lineCut;
     private Tree L, R;
-    private TreeSettings settings;
 
-    private int height;
-    private int width;
+    // Constructors ========================================================================//
 
+    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up) {
 
-    // Constructor ========================================================================//
-    public Tree(Color color, TreeSettings settings, int height, int width) {
-
-        this.color = color;
         this.settings = settings;
-        this.height = height;
-        this.width = width;
+        this.color = color;
+        this.left = left;
+        this.right = right;
+        this.down = down;
+        this.up = up;
+
         axis = null;
-        P = null;
+        lineCut = null;
         L = null;
         R = null;
     }
 
-    public Tree(Color color, Boolean axis, Point P) {
+    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut) {
 
+        this.settings = settings;
         this.color = color;
+        this.left = left;
+        this.right = right;
+        this.down = down;
+        this.up = up;
         this.axis = axis;
-
-        if (P != null) {
-
-            this.P = new Point(P);
-        }
-        else {
-
-            this.P = null;
-        }
+        this.lineCut = lineCut;
 
         L = null;
         R = null;
     }
 
-    public Tree(Color color, Boolean axis, Integer X, Integer Y) {
+    public Tree(TreeSettings settings, Color color, int left, int right, int down, int up, Boolean axis, Integer lineCut, Tree L, Tree R) {
 
+        this.settings = settings;
         this.color = color;
+        this.left = left;
+        this.right = right;
+        this.down = down;
+        this.up = up;
         this.axis = axis;
-        this.P = new Point(X, Y);
-        L = null;
-        R = null;
-    }
-
-    public Tree(Color color, Boolean axis, Point P, Tree L, Tree R) {
-
-        this.color = color;
-        this.axis = axis;
-
-        if (P != null) {
-
-            this.P = new Point(P);
-        }
-        else {
-
-            this.P = null;
-        }
-
-        if (L != null) {
-
-            this.L = new Tree(L);
-        }
-        else  {
-
-            this.L = null;
-        }
-
-        if (R != null) {
-
-            this.R = new Tree(R);
-        }
-        else  {
-
-            this.R = null;
-        }
-    }
-
-    public Tree(Color color, Boolean axis, Integer X, Integer Y, Tree L, Tree R) {
-
-        this.color = color;
-        this.axis = axis;
-        this.P = new Point(X, Y);
+        this.lineCut = lineCut;
 
         if (L != null) {
 
@@ -116,17 +78,14 @@ public class Tree {
 
     public Tree(Tree T) {
 
+        settings = T.settings;
         color = T.color;
+        this.left = left;
+        this.right = right;
+        this.down = down;
+        this.up = up;
         axis = T.axis;
-
-        if (T.P != null) {
-
-            P = new Point(T.P);
-        }
-        else {
-
-            P = null;
-        }
+        lineCut = T.lineCut;
 
         if (T.L != null) {
 
@@ -146,29 +105,32 @@ public class Tree {
             R = null;
         }
     }
-    //========================================================================================//
+
+    // Getters ========================================================================//
+
+    public TreeSettings getSettings() { return settings; }
+    public Color getColor(){
+        return color;
+    }
+    public int getHeight() { return up - down; }
+    public int getWidth() { return right - left; }
+    public int getLeft() { return left; }
+    public int getRight() { return right; }
+    public int getDown() { return down; }
+    public int getUp() { return up; }
+    public Boolean getAxis() { return axis; }
+    public Integer getLineCut() { return lineCut; }
+    public Tree getL() { return L; }
+    public Tree getR() { return R; }
+
+    // Methods ========================================================================================//
 
     public boolean isLeaf() {
 
-        return (color != null && L == null && R == null && P == null && axis == null);
+        return (color != null && L == null && R == null && lineCut == null && axis == null);
     }
     public static boolean isLeaf(Tree T) {
 
         return T.isLeaf();
     }
-
-    public void add(Point P, Color col) {
-
-    }
-
-    public void add(Point P) {
-
-    }
-
-
-    public Color getColor(){
-        return color;
-    }
-
-
 }

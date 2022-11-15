@@ -1,23 +1,28 @@
 package Main;
-import TreePck.*;
 
+import TreePck.*;
 import java.awt.*;
 
 public class Painter {
 
     public static void main(String[] args) {
 
-        System.out.println();
+        Tree tree = generateRandomTree(800, 1000, 50, 0.7, 0.1, 10, 666);
+
+        System.out.println("Aucune erreur de build.");
     }
-    public Tree initTree() {
-        TreeSettings settings = new TreeSettings(5, 0.7, 10,10, 1000);
-        Tree tree = new Tree(Color.white, settings, 80, 100);
-        Tree L = new Tree();
-        Tree R = new Tree();
-        
+
+    public static Tree generateRandomTree(int height, int width, int nbLeaves, double sameColorProb, double proportionCut, int minDimensionCut, int seed) {
+
+        Tree tree = initTree(height, width, nbLeaves, sameColorProb, proportionCut, minDimensionCut, seed);
+
         return tree;
     }
-    public Tree generateRandomTree(Tree tree) {
+    public static Tree initTree(int height, int width, int nbLeaves, double sameColorProb, double proportionCut, int minDimensionCut, int seed) {
+
+        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, proportionCut, minDimensionCut, seed);
+        Tree tree = new Tree(settings, Color.WHITE, 0, height, 0,  width);
+        
         return tree;
     }
 }

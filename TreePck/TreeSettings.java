@@ -5,10 +5,11 @@ public class TreeSettings {
     private double sameColorProb;
     private double cutProportion;
     private int minDimensionCut;
-    private double seed;
+    private int seed;
 
     // Constructor
-    public TreeSettings(int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, double seed){
+    public TreeSettings(int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed){
+
         this.nbLeaves = nbLeaves;
         this.sameColorProb = sameColorProb;
         this.cutProportion = cutProportion;
@@ -16,19 +17,12 @@ public class TreeSettings {
         this.seed = seed;
     }
 
-    // Getter
-    int getNbLeaves() {
-        return nbLeaves;
-    }
+    // Getters
+    int getNbLeaves() { return nbLeaves; }
     double getSameColorProb() {
         return sameColorProb;
     }
-    double getCutProportion() {
-        return cutProportion;
-
-    }
-    int getMinDimensionCut() {
-        return minDimensionCut;
-
-    }
+    double getCutProportion() { return cutProportion; }
+    int getMinDimensionCut() { return minDimensionCut; }
+    int getSeed() { return seed; }
 }
