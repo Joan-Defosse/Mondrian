@@ -9,7 +9,6 @@ public class Tree {
 
     private final TreeSettings settings;
     private Color color;
-    private int left, right, down, up;
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
@@ -101,12 +100,12 @@ public class Tree {
     public Color getColor(){
         return color;
     }
-    public int getHeight() { return up - down; }
-    public int getWidth() { return right - left; }
-    public int getLeft() { return left; }
-    public int getRight() { return right; }
-    public int getDown() { return down; }
-    public int getUp() { return up; }
+    public int getHeight() { return position.getHeight(); }
+    public int getWidth() { return position.getWidth(); }
+    public int getLeft() { return position.getLeft(); }
+    public int getRight() { return position.getRight(); }
+    public int getDown() { return position.getDown(); }
+    public int getUp() { return position.getUp(); }
     public Boolean getAxis() { return axis; }
     public Integer getLineCut() { return lineCut; }
     public Tree getL() { return L; }
