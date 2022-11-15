@@ -2,7 +2,6 @@ package Main;
 
 import TreePck.*;
 import java.awt.Color;
-import java.util.Random;
 
 public class Painter {
 
@@ -15,15 +14,33 @@ public class Painter {
 
     public static Tree generateRandomTree(int height, int width, int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed) {
 
-        Tree T = initTree(height, width, nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
+        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
+        Tree T = initTree(height, width, settings);
 
         return T;
     }
-    public static Tree initTree(int height, int width, int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed) {
+    public static Tree initTree(int height, int width, TreeSettings settings) {
 
-        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
-        Tree T = new Tree(settings, Color.WHITE, new Position(0, height, 0,  width));
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), T.getSettings().getCutProportion());
+        Tree T = new Tree(settings, Color.WHITE, new Zone(0, width, 0,  height));
+        Tree L, R;
+        Zone zoneL, zoneR;
+        Color colorL, colorR;
+        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
+
+        T.setAxis(bip.axis);
+
+        if (T.getAxis() == Tree.AxisX) {
+
+            T.setLineCut(T.getLeft() + bip.cut);
+            zoneL = new Zone(T.getLeft(), T.getLineCut() - 1, T.getDown(), T.getUp());
+            zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
+        }
+        else {
+
+            T.setLineCut(T.getDown() + bip.cut);
+            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - 1);
+            zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
+        }
         
         return T;
     }
@@ -46,7 +63,7 @@ public class Painter {
     }
     private static Boolean chooseAxis(int height, int width) {
 
-        int ProbaX = width / width + height;
+        int ProbaX = width / (width + height);
 
         if (Math.random() > ProbaX) {
 
@@ -58,12 +75,7 @@ public class Painter {
 
     private static int chooseCoordinate(int size, double proportionCut) {
 
-        double rand = Math.random();
-
-        while(rand < proportionCut || rand > 1 - proportionCut)  {
-
-            rand = Math.random();
-        }
+        double rand = proportionCut + Math.random() * (1 - (2 * proportionCut));
 
         return (int)(size * rand);
     }

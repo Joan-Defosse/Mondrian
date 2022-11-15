@@ -9,18 +9,18 @@ public class Tree {
 
     private final TreeSettings settings;
     private Color color;
+    private Zone zone;
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
-    private Position position;
 
     // Constructors ========================================================================//
 
-    public Tree(TreeSettings settings, Color color, Position position) {
+    public Tree(TreeSettings settings, Color color, Zone zone) {
 
         this.settings = settings;
         this.color = color;
-        this.position = position;
+        this.zone = zone;
 
         axis = null;
         lineCut = null;
@@ -28,11 +28,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut) {
+    public Tree(TreeSettings settings, Color color, Zone zone, Boolean axis, Integer lineCut) {
 
         this.settings = settings;
         this.color = color;
-        this.position = position;
+        this.zone = zone;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -40,11 +40,11 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, Position position, Boolean axis, Integer lineCut, Tree L, Tree R) {
+    public Tree(TreeSettings settings, Color color, Zone zone, Boolean axis, Integer lineCut, Tree L, Tree R) {
 
         this.settings = settings;
         this.color = color;
-        this.position = position;
+        this.zone = zone;
         this.axis = axis;
         this.lineCut = lineCut;
 
@@ -71,7 +71,7 @@ public class Tree {
 
         settings = T.settings;
         color = T.color;
-        this.position = T.position;
+        zone = T.zone;
         axis = T.axis;
         lineCut = T.lineCut;
 
@@ -100,16 +100,22 @@ public class Tree {
     public Color getColor(){
         return color;
     }
-    public int getHeight() { return position.getHeight(); }
-    public int getWidth() { return position.getWidth(); }
-    public int getLeft() { return position.getLeft(); }
-    public int getRight() { return position.getRight(); }
-    public int getDown() { return position.getDown(); }
-    public int getUp() { return position.getUp(); }
+    public double getWeight() { return zone.getWeight(); }
+    public int getHeight() { return zone.getHeight(); }
+    public int getWidth() { return zone.getWidth(); }
+    public int getLeft() { return zone.getLeft(); }
+    public int getRight() { return zone.getRight(); }
+    public int getDown() { return zone.getDown(); }
+    public int getUp() { return zone.getUp(); }
     public Boolean getAxis() { return axis; }
     public Integer getLineCut() { return lineCut; }
     public Tree getL() { return L; }
     public Tree getR() { return R; }
+
+    // Setters ========================================================================//
+
+    public void setAxis(Boolean axis) { this.axis = axis; }
+    public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
 
     // Methods ========================================================================================//
 
