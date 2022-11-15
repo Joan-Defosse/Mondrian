@@ -3,11 +3,11 @@ package Main;
 public class BoolIntPair {
 
     public Boolean axis;
-    public int x;
+    public int cut;
 
-    public BoolIntPair(Boolean axis, int y)  {
+    public BoolIntPair(Boolean axis, int cut)  {
 
         this.axis = axis;
-        x = y;
+        this.cut = cut;
     }
 }

@@ -2,7 +2,6 @@ package Main;
 
 import TreePck.*;
 import java.awt.Color;
-import java.util.Random;
 
 public class Painter {
 
@@ -15,15 +14,18 @@ public class Painter {
 
     public static Tree generateRandomTree(int height, int width, int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed) {
 
-        Tree T = initTree(height, width, nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
+        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
+        Tree T = initTree(height, width, settings);
 
         return T;
     }
-    public static Tree initTree(int height, int width, int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed) {
+    public static Tree initTree(int height, int width, TreeSettings settings) {
 
-        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
-        Tree T = new Tree(settings, Color.WHITE, new Position(0, height, 0,  width));
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), T.getSettings().getCutProportion());
+        Tree T = new Tree(settings, Color.WHITE, new Position(0, width, 0,  height));
+
+        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
+        T.setAxis(bip.axis);
+        T.setLineCut(bip.cut); // On se le permet uniquement car left et down valent 0 à la première coupe !
         
         return T;
     }
@@ -46,7 +48,7 @@ public class Painter {
     }
     private static Boolean chooseAxis(int height, int width) {
 
-        int ProbaX = width / width + height;
+        int ProbaX = width / (width + height);
 
         if (Math.random() > ProbaX) {
 
@@ -60,7 +62,7 @@ public class Painter {
 
         double rand = Math.random();
 
-        while(rand < proportionCut || rand > 1 - proportionCut)  {
+        while(rand <= proportionCut || rand >= (1 - proportionCut))  {
 
             rand = Math.random();
         }

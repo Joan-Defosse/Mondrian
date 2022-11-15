@@ -9,10 +9,10 @@ public class Tree {
 
     private final TreeSettings settings;
     private Color color;
+    private Position position;
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
-    private Position position;
 
     // Constructors ========================================================================//
 
@@ -71,7 +71,7 @@ public class Tree {
 
         settings = T.settings;
         color = T.color;
-        this.position = T.position;
+        position = T.position;
         axis = T.axis;
         lineCut = T.lineCut;
 
@@ -110,6 +110,11 @@ public class Tree {
     public Integer getLineCut() { return lineCut; }
     public Tree getL() { return L; }
     public Tree getR() { return R; }
+
+    // Setters ========================================================================//
+
+    public void setAxis(Boolean axis) { this.axis = axis; }
+    public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
 
     // Methods ========================================================================================//
 

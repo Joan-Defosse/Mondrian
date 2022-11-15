@@ -7,6 +7,7 @@ public class Position {
     private int up;
 
     public Position(int left, int right, int down, int up) {
+
         this.left = left;
         this.right = right;
         this.down = down;
@@ -42,9 +43,9 @@ public class Position {
     }
 
     public int getHeight() {
-        return (this.up - this.down);
+        return (up - down);
     }
     public int getWidth() {
-        return (this.right - this.left);
+        return (right - left);
     }
 }
