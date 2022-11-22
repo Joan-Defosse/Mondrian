@@ -84,8 +84,6 @@ public class Painter {
         if(Math.random() > sameColorProb) {
             return randomColor();
         }
-        else {
-            return FColor;
-        }
+        return FColor;
     }
 }
