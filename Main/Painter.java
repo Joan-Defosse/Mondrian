@@ -17,6 +17,9 @@ public class Painter {
         TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
         Tree T = initTree(height, width, settings);
 
+        Tree T2 = chooseLeaf(T, minDimensionCut);
+
+
         return T;
     }
     public static Tree initTree(int height, int width, TreeSettings settings) {
@@ -118,5 +121,32 @@ public class Painter {
                 break;
         }
         return result;
+    }
+
+    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
+
+        if(T.isLeaf()) {
+            if(T.getHeight() < minDimensionCut || T.getWidth() < minDimensionCut) {
+                return null;
+            }
+            return T;
+        }
+
+        Tree L = chooseLeaf(T.getL(), minDimensionCut);
+        Tree R = chooseLeaf(T.getR(), minDimensionCut);
+
+        if(R != null && L != null){
+            if(L.getWeight() > R.getWeight()){
+                return L;
+            }
+            return R;
+        }
+        if(R == null && L == null) {
+            return null;
+        }
+        if(R == null) {
+            return L;
+        }
+        return R;
     }
 }
