@@ -21,7 +21,7 @@ public class Painter {
     }
     public static Tree initTree(int height, int width, TreeSettings settings) {
 
-        Tree T = new Tree(settings, Color.WHITE, new Zone(0, width, 0,  height));
+        Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
         Tree L, R;
         Zone zoneL, zoneR;
         Color colorL, colorR;
