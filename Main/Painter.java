@@ -41,7 +41,13 @@ public class Painter {
             zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - 1);
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
-        
+
+        colorL = chooseColor(T.getColor(), settings.getSameColorProb());
+        colorR = chooseColor(T.getColor(), settings.getSameColorProb());
+
+        L = new Tree(colorL, zoneL);
+        R = new Tree(colorR, zoneR);
+
         return T;
     }
 
