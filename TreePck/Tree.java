@@ -120,7 +120,7 @@ public class Tree {
 
     public boolean isLeaf() {
 
-        return (color != null && L == null && R == null && lineCut == null && axis == null);
+        return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
     }
     public static boolean isLeaf(Tree T) {
 
