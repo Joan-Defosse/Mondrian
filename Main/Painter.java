@@ -80,5 +80,12 @@ public class Painter {
         return (int)(size * rand);
     }
 
-
+    private static Color chooseColor(Color FColor, double sameColorProb) {
+        if(Math.random() > sameColorProb) {
+            return randomColor();
+        }
+        else {
+            return FColor;
+        }
+    }
 }
