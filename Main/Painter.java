@@ -79,6 +79,7 @@ public class Painter {
 
         return (int)(size * rand);
     }
+
     public static Color chooseColor(Color FColor, double sameColorProb) {
 
         if(Math.random() > sameColorProb) {
@@ -88,12 +89,9 @@ public class Painter {
 
     }
     private static Color randomColor() {
-
         int rand = (int) (5 * Math.random());
         Color result;
-
         switch (rand) {
-
             case 0:
                 result = Color.WHITE;
                 break;
@@ -110,7 +108,6 @@ public class Painter {
                 result = Color.YELLOW;
                 break;
         }
-
         return result;
     }
 }
