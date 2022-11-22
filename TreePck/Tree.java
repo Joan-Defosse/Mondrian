@@ -123,7 +123,6 @@ public class Tree {
         return (color != null && L == null && R == null && lineCut == null && axis == null);
     }
     public static boolean isLeaf(Tree T) {
-
         return T.isLeaf();
     }
 }
