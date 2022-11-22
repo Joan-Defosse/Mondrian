@@ -48,6 +48,9 @@ public class Painter {
         L = new Tree(colorL, zoneL);
         R = new Tree(colorR, zoneR);
 
+        T.setL(L);
+        T.setR(R);
+
         return T;
     }
 
