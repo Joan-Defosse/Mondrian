@@ -7,7 +7,7 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Tree tree = generateRandomTree(800, 1000, 50, 0.7, 0.1, 10, 666);
+        Tree tree = generateRandomTree(800, 1000, 10, 0.7, 0.1, 10, 666);
 
         System.out.println("Aucune erreur de build.");
     }
@@ -17,9 +17,42 @@ public class Painter {
         TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
         Tree T = initTree(height, width, settings);
 
-        Tree T2 = chooseLeaf(T, minDimensionCut);
+        for(int i = 2; i <= nbLeaves; i++) {
+            Tree A = chooseLeaf(T, minDimensionCut);
+            Tree L, R;
+            Zone zoneL, zoneR;
+            Color colorL, colorR;
 
+            // si aucune feuille ne peut être découpée == fin du programme
+            if(A == null) {
+                return T;
+            }
 
+            BoolIntPair bip = chooseDivision(A.getHeight(), A.getWidth(), settings.getCutProportion());
+
+            A.setAxis(bip.axis);
+
+            if (A.getAxis() == Tree.AxisX) {
+                A.setLineCut(A.getLeft() + bip.cut);
+                zoneL = new Zone(A.getLeft(), A.getLineCut() - 1, A.getDown(), A.getUp());
+                zoneR = new Zone(A.getLineCut(), A.getRight(), A.getDown(), A.getUp());
+            }
+            else {
+
+                A.setLineCut(A.getDown() + bip.cut);
+                zoneL = new Zone(A.getLeft(), A.getRight(), A.getDown(), A.getLineCut() - 1);
+                zoneR = new Zone(A.getLeft(), A.getRight(), A.getLineCut(), A.getUp());
+            }
+
+            colorL = chooseColor(A.getColor(), settings.getSameColorProb());
+            colorR = chooseColor(A.getColor(), settings.getSameColorProb());
+
+            L = new Tree(colorL, zoneL);
+            R = new Tree(colorR, zoneR);
+
+            A.setL(L);
+            A.setR(R);
+        }
         return T;
     }
     public static Tree initTree(int height, int width, TreeSettings settings) {
