@@ -80,5 +80,30 @@ public class Painter {
         return (int)(size * rand);
     }
 
+    private static Color randomColor() {
 
+        int rand = (int)(5 * Math.random());
+        Color result;
+
+        switch(rand) {
+
+            case 0:
+                result = Color.WHITE;
+                break;
+            case 1:
+                result = Color.BLACK;
+                break;
+            case 2:
+                result = Color.BLUE;
+                break;
+            case 3:
+                result = Color.RED;
+                break;
+            default:
+                result = Color.YELLOW;
+                break;
+        }
+
+        return result;
+    }
 }
