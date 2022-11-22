@@ -109,6 +109,12 @@ public class Tree {
 
     public void setAxis(Boolean axis) { this.axis = axis; }
     public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
+    public void setL(Tree L) {
+        this.L = L;
+    }
+    public void setR(Tree R) {
+        this.R = R;
+    }
 
     // Methods ========================================================================================//
 
