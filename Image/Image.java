@@ -1,4 +1,4 @@
-package Main;
+package Image;
 
 import java.awt.*;
 import java.io.File;

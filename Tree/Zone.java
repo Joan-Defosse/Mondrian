@@ -1,10 +1,15 @@
-package TreePck;
+package Tree;
 
 public class Zone {
-    private int left;
-    private int right;
-    private int down;
-    private int up;
+
+    // PRIVATE ATTRIBUTES ===================================== //
+
+    private int left; // startX
+    private int right; // endX
+    private int down; // startY
+    private int up; // endY
+
+    // PUBLIC CONSTRUCTORS ===================================== //
 
     public Zone(int left, int right, int down, int up) {
 
@@ -13,6 +18,8 @@ public class Zone {
         this.down = down;
         this.up = up;
     }
+
+    // PUBLIC GETTERS ===================================== //
 
     public int getLeft() {
         return left;
@@ -36,6 +43,8 @@ public class Zone {
 
         return (getWidth() * getHeight()) / Math.pow(getWidth() + getHeight(), 1.5);
     }
+
+    // PUBLIC SETTERS ===================================== //
 
     public void setLeft(int left) {
         this.left = left;
