@@ -1,8 +1,12 @@
 # Compiled class file
 *.class
 
+# PNG files
+*.png
+
 # IntelliJ file
-*.idea
+.idea/
+out/
 
 # Log file
 *.log

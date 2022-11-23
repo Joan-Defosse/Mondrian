@@ -6,8 +6,6 @@ public class Tree {
 
     public final static Boolean AxisX = true; // abscisses
     public final static Boolean AxisY = false; // ordonnées
-
-    private final TreeSettings settings;
     private Color color;
     private Zone zone;
     private Boolean axis;
@@ -16,9 +14,8 @@ public class Tree {
 
     // Constructors ========================================================================//
 
-    public Tree(TreeSettings settings, Color color, Zone zone) {
+    public Tree(Color color, Zone zone) {
 
-        this.settings = settings;
         this.color = color;
         this.zone = zone;
 
@@ -28,9 +25,8 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, Zone zone, Boolean axis, Integer lineCut) {
+    public Tree(Color color, Zone zone, Boolean axis, Integer lineCut) {
 
-        this.settings = settings;
         this.color = color;
         this.zone = zone;
         this.axis = axis;
@@ -40,9 +36,8 @@ public class Tree {
         R = null;
     }
 
-    public Tree(TreeSettings settings, Color color, Zone zone, Boolean axis, Integer lineCut, Tree L, Tree R) {
+    public Tree(Color color, Zone zone, Boolean axis, Integer lineCut, Tree L, Tree R) {
 
-        this.settings = settings;
         this.color = color;
         this.zone = zone;
         this.axis = axis;
@@ -69,7 +64,6 @@ public class Tree {
 
     public Tree(Tree T) {
 
-        settings = T.settings;
         color = T.color;
         zone = T.zone;
         axis = T.axis;
@@ -96,7 +90,6 @@ public class Tree {
 
     // Getters ========================================================================//
 
-    public TreeSettings getSettings() { return settings; }
     public Color getColor(){
         return color;
     }
@@ -116,15 +109,17 @@ public class Tree {
 
     public void setAxis(Boolean axis) { this.axis = axis; }
     public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
+    public void setL(Tree L) {
+        this.L = L;
+    }
+    public void setR(Tree R) {
+        this.R = R;
+    }
 
     // Methods ========================================================================================//
 
     public boolean isLeaf() {
 
-        return (color != null && L == null && R == null && lineCut == null && axis == null);
-    }
-    public static boolean isLeaf(Tree T) {
-
-        return T.isLeaf();
+        return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
     }
 }
