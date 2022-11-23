@@ -1,18 +1,23 @@
-package TreePck;
+package Tree;
 
 import java.awt.Color;
 
 public class Tree {
 
+    // PUBLIC STATIC CONST ===================================== //
+
     public final static Boolean AxisX = true; // abscisses
     public final static Boolean AxisY = false; // ordonnées
+
+    // PRIVATE ATTRIBUTES ===================================== //
+
     private Color color;
     private Zone zone;
     private Boolean axis;
     private Integer lineCut;
     private Tree L, R;
 
-    // Constructors ========================================================================//
+    // PUBLIC CONSTRUCTORS ===================================== //
 
     public Tree(Color color, Zone zone) {
 
@@ -88,11 +93,9 @@ public class Tree {
         }
     }
 
-    // Getters ========================================================================//
+    // PUBLIC GETTERS ===================================== //
 
-    public Color getColor(){
-        return color;
-    }
+    public Color getColor(){ return color; }
     public double getWeight() { return zone.getWeight(); }
     public int getHeight() { return zone.getHeight(); }
     public int getWidth() { return zone.getWidth(); }
@@ -105,18 +108,14 @@ public class Tree {
     public Tree getL() { return L; }
     public Tree getR() { return R; }
 
-    // Setters ========================================================================//
+    // PUBLIC SETTERS ===================================== //
 
     public void setAxis(Boolean axis) { this.axis = axis; }
     public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
-    public void setL(Tree L) {
-        this.L = L;
-    }
-    public void setR(Tree R) {
-        this.R = R;
-    }
+    public void setL(Tree L) { this.L = L; }
+    public void setR(Tree R) { this.R = R; }
 
-    // Methods ========================================================================================//
+    // PUBLIC METHODS ===================================== //
 
     public boolean isLeaf() {
 

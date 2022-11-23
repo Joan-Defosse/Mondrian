@@ -1,14 +1,19 @@
 package Main;
 
-import TreePck.*;
+import Tree.*;
+import Image.*;
+import Struct.*;
 import java.awt.Color;
+import java.util.Random;
 import java.io.IOException;
 
 public class Painter {
 
+    // PUBLIC STATIC MAIN ===================================== //
+
     public static void main(String[] args) {
 
-        TreeSettings settings = new TreeSettings(50, 0.7, 0.1, 10, 666);
+        Settings settings = new Settings(5, 70, 10, 0.3, 0.1, 666);
         Tree T = generateRandomTree(1200, 1800, settings);
 
         Image image = toImage(T);
@@ -25,7 +30,9 @@ public class Painter {
         System.out.println("Aucune erreur de build.");
     }
 
-    public static Tree generateRandomTree(int height, int width, TreeSettings settings) {
+    // PUBLIC STATIC FUNCTIONS ===================================== //
+
+    public static Tree generateRandomTree(int height, int width, Settings settings) {
 
         Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
 
@@ -52,20 +59,113 @@ public class Painter {
         return image;
     }
 
-    private static void fill(Image image, Tree T) {
+    // PRIVATE STATIC FUNCTIONS ===================================== //
 
-        if (T.isLeaf()){
+    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
 
-            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
+        if(T.isLeaf()) {
+
+            if((T.getHeight() < minDimensionCut) || (T.getWidth() < minDimensionCut))
+                return null;
+
+            return T;
+        }
+
+        Tree L = chooseLeaf(T.getL(), minDimensionCut);
+        Tree R = chooseLeaf(T.getR(), minDimensionCut);
+
+        if(R != null && L != null){
+
+            if(L.getWeight() > R.getWeight())
+                return L;
+
+            return R;
+        }
+
+        if(R == null && L == null)
+            return null;
+
+        if(R == null)
+            return L;
+
+        return R;
+    }
+
+    private static BoolIntPair chooseDivision(int height, int width, double proportionCut) {
+
+        Boolean axis = chooseAxis(height, width);
+        int result;
+
+        if (axis == Tree.AxisX) {
+
+            result = chooseCoordinate(width, proportionCut);
         }
         else {
 
-            fill(image, T.getL());
-            fill(image, T.getR());
+            result = chooseCoordinate(height, proportionCut);
         }
+
+        return new BoolIntPair(axis, result);
     }
 
-    private static void cutLeaf(Tree T, TreeSettings settings) {
+    private static Color chooseColor(Color FColor, double sameColorProb) {
+
+        if (Math.random() > sameColorProb) {
+
+            return randomColor();
+        }
+
+        return FColor;
+    }
+
+    private static Boolean chooseAxis(int height, int width) {
+
+        double ProbaX = (double)width / (double)((height + width));
+        double rand = Math.random();
+
+        if (rand > ProbaX) {
+
+            return Tree.AxisY;
+        }
+
+        return Tree.AxisX;
+    }
+
+    private static int chooseCoordinate(int size, double proportionCut) {
+
+        double rand = proportionCut + Math.random() * (1 - (2 * proportionCut));
+
+        return (int)(size * rand);
+    }
+
+    private static Color randomColor() {
+
+        Color result;
+        int rand = (int) (5 * Math.random());
+
+        switch (rand) {
+
+            case 0:
+                result = Color.WHITE;
+                break;
+            case 1:
+                result = Color.BLACK;
+                break;
+            case 2:
+                result = Color.BLUE;
+                break;
+            case 3:
+                result = Color.RED;
+                break;
+            default:
+                result = Color.YELLOW;
+                break;
+        }
+
+        return result;
+    }
+
+    private static void cutLeaf(Tree T, Settings settings) {
 
         Tree L, R;
         Zone zoneL, zoneR;
@@ -99,105 +199,16 @@ public class Painter {
         T.setR(R);
     }
 
-    private static BoolIntPair chooseDivision(int height, int width, double proportionCut) {
+    private static void fill(Image image, Tree T) {
 
-        Boolean axis = chooseAxis(height, width);
-        int result;
+        if (T.isLeaf()){
 
-        if (axis == Tree.AxisX) {
-
-            result = chooseCoordinate(width, proportionCut);
+            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
         }
         else {
 
-            result = chooseCoordinate(height, proportionCut);
+            fill(image, T.getL());
+            fill(image, T.getR());
         }
-
-        return new BoolIntPair(axis, result);
-    }
-    private static Boolean chooseAxis(int height, int width) {
-
-        double ProbaX = (double)width / (double)((height + width));
-        double rand = Math.random();
-
-        if (rand > ProbaX) {
-
-            return Tree.AxisY;
-        }
-
-        return Tree.AxisX;
-    }
-
-    private static int chooseCoordinate(int size, double proportionCut) {
-
-        double rand = proportionCut + Math.random() * (1 - (2 * proportionCut));
-
-        return (int)(size * rand);
-    }
-
-    private static Color chooseColor(Color FColor, double sameColorProb) {
-
-        if (Math.random() > sameColorProb) {
-
-            return randomColor();
-        }
-
-        return FColor;
-    }
-    private static Color randomColor() {
-
-        Color result;
-        int rand = (int) (5 * Math.random());
-
-        switch (rand) {
-
-            case 0:
-                result = Color.WHITE;
-                break;
-            case 1:
-                result = Color.BLACK;
-                break;
-            case 2:
-                result = Color.BLUE;
-                break;
-            case 3:
-                result = Color.RED;
-                break;
-            default:
-                result = Color.YELLOW;
-                break;
-        }
-
-        return result;
-    }
-
-    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
-
-        if(T.isLeaf()) {
-
-            if((T.getHeight() < minDimensionCut) || (T.getWidth() < minDimensionCut))
-                return null;
-
-            return T;
-        }
-
-        Tree L = chooseLeaf(T.getL(), minDimensionCut);
-        Tree R = chooseLeaf(T.getR(), minDimensionCut);
-
-        if(R != null && L != null){
-
-            if(L.getWeight() > R.getWeight())
-                return L;
-
-            return R;
-        }
-
-        if(R == null && L == null)
-            return null;
-
-        if(R == null)
-            return L;
-
-        return R;
     }
 }
