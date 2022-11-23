@@ -2,12 +2,22 @@ package Main;
 
 import TreePck.*;
 import java.awt.Color;
+import java.io.IOException;
 
 public class Painter {
 
     public static void main(String[] args) {
 
-        Tree tree = generateRandomTree(800, 1000, 10, 0.7, 0.1, 10, 666);
+        Tree tree = generateRandomTree(1200, 1800, 50, 0.7, 0.1, 10, 666);
+
+//        Tree T = new Tree(Color.RED, new Zone(0, 300, 0, 400));
+        Image image = toImage(tree);
+
+        try {
+            image.save("test.png");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         System.out.println("Aucune erreur de build.");
     }
@@ -17,7 +27,7 @@ public class Painter {
         TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
         Tree T = initTree(height, width, settings);
 
-        for(int i = 2; i <= nbLeaves; i++) {
+        for(int i = 2; i < nbLeaves; i++) {
             Tree A = chooseLeaf(T, minDimensionCut);
             Tree L, R;
             Zone zoneL, zoneR;
@@ -55,6 +65,28 @@ public class Painter {
         }
         return T;
     }
+
+    public static Image toImage(Tree T) {
+
+        Image image = new Image(T.getWidth(), T.getHeight());
+        fill(image, T);
+
+        return image;
+    }
+
+    private static void fill(Image image, Tree T) {
+
+        if (T.isLeaf()){
+
+            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
+        }
+        else {
+
+            fill(image, T.getL());
+            fill(image, T.getR());
+        }
+    }
+
     public static Tree initTree(int height, int width, TreeSettings settings) {
 
         Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
@@ -95,7 +127,7 @@ public class Painter {
         Boolean axis = chooseAxis(height, width);
         int result;
 
-        if (axis = Tree.AxisX) {
+        if (axis == Tree.AxisX) {
 
             result = chooseCoordinate(width, proportionCut);
         }
@@ -108,9 +140,10 @@ public class Painter {
     }
     private static Boolean chooseAxis(int height, int width) {
 
-        int ProbaX = width / (width + height);
+        double ProbaX = (double)width / (double)((height + width));
+        double rand = Math.random();
 
-        if (Math.random() > ProbaX) {
+        if (rand > ProbaX) {
 
             return Tree.AxisY;
         }
