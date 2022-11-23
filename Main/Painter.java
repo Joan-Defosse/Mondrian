@@ -8,60 +8,38 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Tree tree = generateRandomTree(1200, 1800, 50, 0.7, 0.1, 10, 666);
+        TreeSettings settings = new TreeSettings(50, 0.7, 0.1, 10, 666);
+        Tree T = generateRandomTree(1200, 1800, settings);
 
-//        Tree T = new Tree(Color.RED, new Zone(0, 300, 0, 400));
-        Image image = toImage(tree);
+        Image image = toImage(T);
 
         try {
+
             image.save("test.png");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
+
             throw new RuntimeException(e);
         }
 
         System.out.println("Aucune erreur de build.");
     }
 
-    public static Tree generateRandomTree(int height, int width, int nbLeaves, double sameColorProb, double cutProportion, int minDimensionCut, int seed) {
+    public static Tree generateRandomTree(int height, int width, TreeSettings settings) {
 
-        TreeSettings settings = new TreeSettings(nbLeaves, sameColorProb, cutProportion, minDimensionCut, seed);
-        Tree T = initTree(height, width, settings);
+        Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
 
-        for(int i = 2; i < nbLeaves; i++) {
-            Tree A = chooseLeaf(T, minDimensionCut);
-            Tree L, R;
-            Zone zoneL, zoneR;
-            Color colorL, colorR;
+        cutLeaf(T, settings);
+
+        for(int i = 2; i < settings.getNbLeaves(); i++) {
+
+            Tree A = chooseLeaf(T, settings.getMinDimensionCut());
 
             // si aucune feuille ne peut être découpée == fin du programme
-            if(A == null) {
+            if(A == null)
                 return T;
-            }
 
-            BoolIntPair bip = chooseDivision(A.getHeight(), A.getWidth(), settings.getCutProportion());
-
-            A.setAxis(bip.axis);
-
-            if (A.getAxis() == Tree.AxisX) {
-                A.setLineCut(A.getLeft() + bip.cut);
-                zoneL = new Zone(A.getLeft(), A.getLineCut() - 1, A.getDown(), A.getUp());
-                zoneR = new Zone(A.getLineCut(), A.getRight(), A.getDown(), A.getUp());
-            }
-            else {
-
-                A.setLineCut(A.getDown() + bip.cut);
-                zoneL = new Zone(A.getLeft(), A.getRight(), A.getDown(), A.getLineCut() - 1);
-                zoneR = new Zone(A.getLeft(), A.getRight(), A.getLineCut(), A.getUp());
-            }
-
-            colorL = chooseColor(A.getColor(), settings.getSameColorProb());
-            colorR = chooseColor(A.getColor(), settings.getSameColorProb());
-
-            L = new Tree(colorL, zoneL);
-            R = new Tree(colorR, zoneR);
-
-            A.setL(L);
-            A.setR(R);
+            cutLeaf(A, settings);
         }
         return T;
     }
@@ -87,25 +65,26 @@ public class Painter {
         }
     }
 
-    public static Tree initTree(int height, int width, TreeSettings settings) {
+    private static void cutLeaf(Tree T, TreeSettings settings) {
 
-        Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
         Tree L, R;
         Zone zoneL, zoneR;
         Color colorL, colorR;
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
 
+        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
         T.setAxis(bip.axis);
 
         if (T.getAxis() == Tree.AxisX) {
 
             T.setLineCut(T.getLeft() + bip.cut);
+
             zoneL = new Zone(T.getLeft(), T.getLineCut() - 1, T.getDown(), T.getUp());
             zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
             T.setLineCut(T.getDown() + bip.cut);
+
             zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - 1);
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
@@ -118,11 +97,9 @@ public class Painter {
 
         T.setL(L);
         T.setR(R);
-
-        return T;
     }
 
-    public static BoolIntPair chooseDivision(int height, int width, double proportionCut) {
+    private static BoolIntPair chooseDivision(int height, int width, double proportionCut) {
 
         Boolean axis = chooseAxis(height, width);
         int result;
@@ -158,18 +135,22 @@ public class Painter {
         return (int)(size * rand);
     }
 
-    public static Color chooseColor(Color FColor, double sameColorProb) {
+    private static Color chooseColor(Color FColor, double sameColorProb) {
 
-        if(Math.random() > sameColorProb) {
+        if (Math.random() > sameColorProb) {
+
             return randomColor();
         }
-        return FColor;
 
+        return FColor;
     }
     private static Color randomColor() {
-        int rand = (int) (5 * Math.random());
+
         Color result;
+        int rand = (int) (5 * Math.random());
+
         switch (rand) {
+
             case 0:
                 result = Color.WHITE;
                 break;
@@ -186,15 +167,17 @@ public class Painter {
                 result = Color.YELLOW;
                 break;
         }
+
         return result;
     }
 
     private static Tree chooseLeaf(Tree T, int minDimensionCut) {
 
         if(T.isLeaf()) {
-            if(T.getHeight() < minDimensionCut || T.getWidth() < minDimensionCut) {
+
+            if((T.getHeight() < minDimensionCut) || (T.getWidth() < minDimensionCut))
                 return null;
-            }
+
             return T;
         }
 
@@ -202,17 +185,19 @@ public class Painter {
         Tree R = chooseLeaf(T.getR(), minDimensionCut);
 
         if(R != null && L != null){
-            if(L.getWeight() > R.getWeight()){
+
+            if(L.getWeight() > R.getWeight())
                 return L;
-            }
+
             return R;
         }
-        if(R == null && L == null) {
+
+        if(R == null && L == null)
             return null;
-        }
-        if(R == null) {
+
+        if(R == null)
             return L;
-        }
+
         return R;
     }
 }
