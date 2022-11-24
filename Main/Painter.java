@@ -13,15 +13,15 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Random randomizer = new Random(42);
-        Settings settings = new Settings(5, 70, 10, 0.3, 0.1, randomizer);
+        Random randomizer = new Random(1000);
+        Settings settings = new Settings(15, 70, 20, 0.3, 0.1, randomizer);
         Tree T = generateRandomTree(1200, 1800, settings);
 
         Image image = toImage(T);
 
         try {
 
-            image.save("test42_2.png");
+            image.save("test1000_2.png");
         }
         catch (IOException e) {
 
@@ -182,14 +182,14 @@ public class Painter {
 
             T.setLineCut(T.getLeft() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getLineCut() - 1, T.getDown(), T.getUp());
+            zoneL = new Zone(T.getLeft(), T.getLineCut() - settings.getLineWidth(), T.getDown(), T.getUp());
             zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
             T.setLineCut(T.getDown() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - 1);
+            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - settings.getLineWidth());
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
 
