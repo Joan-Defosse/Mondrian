@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.Random;
+
 public class Settings {
 
     // PRIVATE ATTRIBUTES ===================================== //
@@ -9,17 +11,17 @@ public class Settings {
     private int minDimensionCut;
     private double sameColorProb;
     private double cutProportion;
-    private long seed;
+    private Random randomizer;
 
     // PUBLIC CONSTRUCTORS ===================================== //
-    public Settings(int lineWidth, int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, long seed){
+    public Settings(int lineWidth, int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Random randomizer){
 
         this.lineWidth = lineWidth;
         this.nbLeaves = nbLeaves;
         this.minDimensionCut = minDimensionCut;
         this.sameColorProb = sameColorProb;
         this.cutProportion = cutProportion;
-        this.seed = seed;
+        this.randomizer = randomizer;
     }
 
     // PUBLIC GETTERS ===================================== //
@@ -30,5 +32,5 @@ public class Settings {
         return sameColorProb;
     }
     public double getCutProportion() { return cutProportion; }
-    public long getSeed() { return seed; }
+    public Random getRandomizer() { return randomizer; }
 }

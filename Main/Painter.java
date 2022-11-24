@@ -13,14 +13,15 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Settings settings = new Settings(5, 70, 10, 0.3, 0.1, 666);
+        Random randomizer = new Random(42);
+        Settings settings = new Settings(5, 70, 10, 0.3, 0.1, randomizer);
         Tree T = generateRandomTree(1200, 1800, settings);
 
         Image image = toImage(T);
 
         try {
 
-            image.save("test.png");
+            image.save("test42_2.png");
         }
         catch (IOException e) {
 
@@ -91,37 +92,39 @@ public class Painter {
         return R;
     }
 
-    private static BoolIntPair chooseDivision(int height, int width, double proportionCut) {
+    private static BoolIntPair chooseDivision(int height, int width, Settings settings) {
 
-        Boolean axis = chooseAxis(height, width);
+        Boolean axis = chooseAxis(height, width, settings.getRandomizer());
         int result;
 
         if (axis == Tree.AxisX) {
 
-            result = chooseCoordinate(width, proportionCut);
+            result = chooseCoordinate(width, settings.getCutProportion(), settings.getRandomizer());
         }
         else {
 
-            result = chooseCoordinate(height, proportionCut);
+            result = chooseCoordinate(height, settings.getCutProportion(), settings.getRandomizer());
         }
 
         return new BoolIntPair(axis, result);
     }
 
-    private static Color chooseColor(Color FColor, double sameColorProb) {
+    private static Color chooseColor(Color FColor, double sameColorProb, Random randomizer) {
 
-        if (Math.random() > sameColorProb) {
+        double rand = randomizer.nextDouble();
 
-            return randomColor();
+        if (rand > sameColorProb) {
+
+            return randomColor(randomizer);
         }
 
         return FColor;
     }
 
-    private static Boolean chooseAxis(int height, int width) {
+    private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
+        double rand = randomizer.nextDouble();
         double ProbaX = (double)width / (double)((height + width));
-        double rand = Math.random();
 
         if (rand > ProbaX) {
 
@@ -131,17 +134,18 @@ public class Painter {
         return Tree.AxisX;
     }
 
-    private static int chooseCoordinate(int size, double proportionCut) {
+    private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
-        double rand = proportionCut + Math.random() * (1 - (2 * proportionCut));
+        double rand = randomizer.nextDouble();
+        rand = proportionCut + rand * (1 - (2 * proportionCut));
 
         return (int)(size * rand);
     }
 
-    private static Color randomColor() {
+    private static Color randomColor(Random randomizer) {
 
+        int rand = randomizer.nextInt(5);
         Color result;
-        int rand = (int) (5 * Math.random());
 
         switch (rand) {
 
@@ -171,7 +175,7 @@ public class Painter {
         Zone zoneL, zoneR;
         Color colorL, colorR;
 
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings.getCutProportion());
+        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
         T.setAxis(bip.axis);
 
         if (T.getAxis() == Tree.AxisX) {
@@ -189,8 +193,8 @@ public class Painter {
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
 
-        colorL = chooseColor(T.getColor(), settings.getSameColorProb());
-        colorR = chooseColor(T.getColor(), settings.getSameColorProb());
+        colorL = chooseColor(T.getColor(), settings.getSameColorProb(), settings.getRandomizer());
+        colorR = chooseColor(T.getColor(), settings.getSameColorProb(), settings.getRandomizer());
 
         L = new Tree(colorL, zoneL);
         R = new Tree(colorR, zoneR);
