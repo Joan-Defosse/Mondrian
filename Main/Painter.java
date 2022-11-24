@@ -13,7 +13,7 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Random randomizer = new Random(1000);
+        Random randomizer = new Random(1001);
         Settings settings = new Settings(15, 70, 20, 0.3, 0.1, randomizer);
         Tree T = generateRandomTree(1200, 1800, settings);
 
@@ -21,7 +21,7 @@ public class Painter {
 
         try {
 
-            image.save("test1000_2.png");
+            image.save("test1001.png");
         }
         catch (IOException e) {
 
@@ -55,6 +55,8 @@ public class Painter {
     public static Image toImage(Tree T) {
 
         Image image = new Image(T.getWidth(), T.getHeight());
+        image.setRectangle(0, image.width(), 0 , image.height(), Color.GRAY);
+
         fill(image, T);
 
         return image;
