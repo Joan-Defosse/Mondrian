@@ -5,30 +5,89 @@ import Image.*;
 import Struct.*;
 import java.awt.Color;
 import java.util.Random;
+import java.util.Scanner;
 import java.io.IOException;
 
+/* Use these lines to compile and run :
+* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BollIntPair.java
+* java Main.Painter
+* */
 public class Painter {
 
     // PUBLIC STATIC MAIN ===================================== //
 
     public static void main(String[] args) {
 
-        Random randomizer = new Random(1003);
-        Settings settings = new Settings(15, 70, 20, 0.3, 0.1, randomizer);
-        Tree T = generateRandomTree(1200, 1800, settings);
+        Scanner input = new Scanner(System.in);
+        Random randomizer;
+        Settings settings;
+        Tree T;
+        Image image;
+        String answer, filename;
+        int seed, height, width, lineWidth, minDimensionCut, nbLeaves;
+        double sameColorProb, cutProportion;
 
-        Image image = toImage(T, settings.getLineWidth());
+        System.out.println("Do you want to use your own settings (yes/*) ?");
+        answer = input.nextLine();
+
+        if (answer.equals("yes")) {
+
+            System.out.println("Filename : ");
+            filename = input.nextLine();
+
+            System.out.println("Random Seed (> 0) : ");
+            seed = input.nextInt();
+
+            System.out.println("Height (> 0) : ");
+            height = input.nextInt();
+
+            System.out.println("Width (> 0) : ");
+            width = input.nextInt();
+
+            System.out.println("Lines' Width (> 0) : ");
+            lineWidth = input.nextInt();
+
+            System.out.println("Minimum Size to Cut a Dimension (> lineWidth) : ");
+            minDimensionCut = input.nextInt();
+
+            System.out.println("Number of Leaves / Rectangles (> 0) : ");
+            nbLeaves = input.nextInt();
+
+            System.out.println("Probabilty of same Color (0.0 <= x < 1.0) : ");
+            sameColorProb = input.nextDouble();
+
+            System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) : ");
+            cutProportion = input.nextDouble();
+        }
+        else {
+
+            filename = "test1005";
+            seed = 1005;
+            height = 1200;
+            width = 1800;
+            lineWidth = 15;
+            minDimensionCut = 20;
+            nbLeaves = 70;
+            sameColorProb = 0.3;
+            cutProportion = 0.1;
+        }
+
+        randomizer = new Random(seed);
+        settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, randomizer);
+        T = generateRandomTree(height, width, settings);
+
+        image = toImage(T, lineWidth);
 
         try {
 
-            image.save("test1003.png");
+            image.save("output/" + filename + ".png");
         }
         catch (IOException e) {
 
             throw new RuntimeException(e);
         }
 
-        System.out.println("Aucune erreur de build.");
+        System.out.println("No build error. You can find your picture in the output directory.");
     }
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
