@@ -6,7 +6,6 @@ public class Settings {
 
     // PRIVATE ATTRIBUTES ===================================== //
 
-    private int lineWidth;
     private int nbLeaves;
     private int minDimensionCut;
     private double sameColorProb;
@@ -14,9 +13,8 @@ public class Settings {
     private Random randomizer;
 
     // PUBLIC CONSTRUCTORS ===================================== //
-    public Settings(int lineWidth, int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Random randomizer){
+    public Settings(int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Random randomizer){
 
-        this.lineWidth = lineWidth;
         this.nbLeaves = nbLeaves;
         this.minDimensionCut = minDimensionCut;
         this.sameColorProb = sameColorProb;
@@ -25,7 +23,7 @@ public class Settings {
     }
 
     // PUBLIC GETTERS ===================================== //
-    public int getLineWidth() { return lineWidth; }
+
     public int getNbLeaves() { return nbLeaves; }
     public int getMinDimensionCut() { return minDimensionCut; }
     public double getSameColorProb() {
