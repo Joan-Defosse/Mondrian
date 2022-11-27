@@ -13,15 +13,15 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Random randomizer = new Random(1001);
+        Random randomizer = new Random(1003);
         Settings settings = new Settings(15, 70, 20, 0.3, 0.1, randomizer);
         Tree T = generateRandomTree(1200, 1800, settings);
 
-        Image image = toImage(T);
+        Image image = toImage(T, settings.getLineWidth());
 
         try {
 
-            image.save("test1001.png");
+            image.save("test1003.png");
         }
         catch (IOException e) {
 
@@ -52,12 +52,19 @@ public class Painter {
         return T;
     }
 
-    public static Image toImage(Tree T) {
+    public static Image toImage(Tree T, int lineWidth) {
 
         Image image = new Image(T.getWidth(), T.getHeight());
-        image.setRectangle(0, image.width(), 0 , image.height(), Color.GRAY);
 
-        fill(image, T);
+        if (T.isLeaf()) {
+
+            image.setRectangle(0, image.width(), 0 , image.height(), T.getColor());
+        }
+        else {
+
+            fill(image, T);
+            addLineCut(image, T, lineWidth);
+        }
 
         return image;
     }
@@ -184,14 +191,14 @@ public class Painter {
 
             T.setLineCut(T.getLeft() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getLineCut() - settings.getLineWidth(), T.getDown(), T.getUp());
+            zoneL = new Zone(T.getLeft(), T.getLineCut(), T.getDown(), T.getUp());
             zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
             T.setLineCut(T.getDown() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - settings.getLineWidth());
+            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut());
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
 
@@ -215,6 +222,24 @@ public class Painter {
 
             fill(image, T.getL());
             fill(image, T.getR());
+        }
+    }
+
+    private static void addLineCut(Image image, Tree T, int lineWidth) {
+
+        if (!T.isLeaf()) {
+
+            if (T.getAxis() == Tree.AxisX) {
+
+                image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), Color.GRAY);
+            }
+            else {
+
+                image.setRectangle(T.getLeft(), T.getRight(), T.getLineCut() - lineWidth, T.getLineCut(), Color.GRAY);
+            }
+
+            addLineCut(image, T.getL(), lineWidth);
+            addLineCut(image, T.getR(), lineWidth);
         }
     }
 }
