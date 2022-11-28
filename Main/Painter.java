@@ -65,7 +65,7 @@ public class Painter {
         }
         else {
 
-            filename = "test1006";
+            filename = "test1006_1";
             strategy = 1;
             seed = 1006;
             height = 1200;
@@ -81,15 +81,14 @@ public class Painter {
 
         if (strategy == 0) {
 
-            palette = new Palette(Color.GRAY, Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW);
+            palette = Palette.DEFAULT;
             settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
-            palette = new Palette(new Color(0xd6e6ff), new Color(0xd7f9f8), new Color(0xffffea),
-                                  new Color(0xfff0d4), new Color(0xfbe0e0), new Color(0xe5d4ef));
+            palette = Palette.PASTEL;
 
             settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 
