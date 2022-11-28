@@ -1,12 +1,13 @@
 # Compiled class file
 *.class
 
-# PNG files
-*.png
-
 # IntelliJ file
 .idea/
+
+# Output files
 out/
+output/
+*.png
 
 # Log file
 *.log
