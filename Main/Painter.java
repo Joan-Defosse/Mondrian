@@ -31,7 +31,7 @@ public class Painter {
         System.out.println("Do you want to use your own settings (yes/*) ?");
         answer = input.nextLine();
 
-        if (answer.equals("yes")) {
+        if (answer.equalsIgnoreCase("yes")) {
 
             System.out.println("Strategy (0/*) : ");
             strategy = input.nextInt();
@@ -65,7 +65,7 @@ public class Painter {
         }
         else {
 
-            filename = "test1006_1";
+            filename = "test1006_4";
             strategy = 1;
             seed = 1006;
             height = 1200;
@@ -88,7 +88,7 @@ public class Painter {
         }
         else {
 
-            palette = Palette.PASTEL;
+            palette = Palette.BLUE;
 
             settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 
