@@ -24,13 +24,16 @@ public class Painter {
         Tree T;
         Image image;
         String answer, filename;
-        int seed, height, width, lineWidth, minDimensionCut, nbLeaves;
+        int strategy, seed, height, width, lineWidth, minDimensionCut, nbLeaves;
         double sameColorProb, cutProportion;
 
         System.out.println("Do you want to use your own settings (yes/*) ?");
         answer = input.nextLine();
 
         if (answer.equals("yes")) {
+
+            System.out.println("Strategy (0/*) : ");
+            strategy = input.nextInt();
 
             System.out.println("Filename : ");
             filename = input.nextLine();
@@ -62,6 +65,7 @@ public class Painter {
         else {
 
             filename = "test1005";
+            strategy = 1;
             seed = 1005;
             height = 1200;
             width = 1800;
@@ -74,7 +78,16 @@ public class Painter {
 
         randomizer = new Random(seed);
         settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, randomizer);
-        T = generateRandomTree(height, width, settings);
+
+        if (strategy == 0) {
+
+            T = generateRandomTree(height, width, settings);
+        }
+        else {
+
+            T = generateBetterRandomTree(height, width, settings);
+        }
+
 
         image = toImage(T, lineWidth);
 
@@ -109,6 +122,11 @@ public class Painter {
             cutLeaf(A, settings);
         }
         return T;
+    }
+
+    public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
+
+        return generateRandomTree(height, width, settings);
     }
 
     public static Image toImage(Tree T, int lineWidth) {
