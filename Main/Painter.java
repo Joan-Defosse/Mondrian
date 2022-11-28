@@ -33,11 +33,11 @@ public class Painter {
 
         if (answer.equalsIgnoreCase("yes")) {
 
-            System.out.println("Strategy (0/*) : ");
-            strategy = input.nextInt();
-
             System.out.println("Filename (do not write '.png') : ");
             filename = input.nextLine();
+
+            System.out.println("Strategy (0/*) : ");
+            strategy = input.nextInt();
 
             System.out.println("Random Seed (> 0) : ");
             seed = input.nextInt();
@@ -65,7 +65,7 @@ public class Painter {
         }
         else {
 
-            filename = "test1006_4";
+            filename = "test1006_2";
             strategy = 1;
             seed = 1006;
             height = 1200;
@@ -88,7 +88,7 @@ public class Painter {
         }
         else {
 
-            palette = Palette.BLUE;
+            palette = Palette.WOOD;
 
             settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 
