@@ -36,7 +36,7 @@ public class Painter {
             System.out.println("Filename (do not write '.png') : ");
             filename = input.nextLine();
 
-            System.out.println("Strategy (0/*) : ");
+            System.out.println("Strategy (0 for default / * for something else) : ");
             strategy = input.nextInt();
 
             System.out.println("Random Seed (> 0) : ");
@@ -65,7 +65,7 @@ public class Painter {
         }
         else {
 
-            filename = "test1006_2";
+            filename = "test1006_6";
             strategy = 1;
             seed = 1006;
             height = 1200;
@@ -88,7 +88,7 @@ public class Painter {
         }
         else {
 
-            palette = Palette.WOOD;
+            palette = Palette.RAINBOW;
 
             settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 

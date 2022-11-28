@@ -17,8 +17,14 @@ public class Palette {
     public static final Palette GREEN = new Palette(new Color(0x11150d), new Color(0x314026), new Color(0x526a40),
             new Color(0x739559), new Color(0x94bf74), new Color(0xb5ea8c));
 
-    public static final Palette BLUE = new Palette(Color.WHITE, new Color(0xedf2fa), new Color(0xd7e3fc), new Color(0xccdbfd),
-            new Color(0xc1d3fe), new Color(0xabc4ff));
+    public static final Palette BLUE = new Palette(Color.WHITE, new Color(0xedf2fa), new Color(0xd7e3fc),
+            new Color(0xccdbfd), new Color(0xc1d3fe), new Color(0xabc4ff));
+
+    public static final Palette PINK = new Palette(Color.WHITE, new Color(0xffe5ec), new Color(0xffc2d1),
+            new Color(0xffb3c6), new Color(0xff8fab), new Color(0xfb6f92));
+
+    public static final Palette RAINBOW = new Palette(new Color(0xffca3a), new Color(0xf27b50), new Color(0xff595e),
+            new Color(0x8ac926), new Color(0x1982c4), new Color(0x6a4c93));
 
     // PUBLIC ATTRIBUTES ===================================== //
 
