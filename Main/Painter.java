@@ -61,7 +61,7 @@ public class Painter {
             System.out.println("Width (> 0) :");
             width = input.nextInt();
 
-            System.out.println("Lines' Width (> 0) :");
+            System.out.println("Lines Width (> 0) :");
             lineWidth = input.nextInt();
 
             System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
