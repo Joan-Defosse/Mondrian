@@ -3,6 +3,7 @@ package Struct;
 public class BoolIntPair {
 
     // PUBLIC ATTRIBUTES ===================================== //
+
     public Boolean axis;
     public int cut;
 

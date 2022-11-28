@@ -20,6 +20,7 @@ public class Painter {
 
         Scanner input = new Scanner(System.in);
         Random randomizer;
+        Palette palette;
         Settings settings;
         Tree T;
         Image image;
@@ -35,7 +36,7 @@ public class Painter {
             System.out.println("Strategy (0/*) : ");
             strategy = input.nextInt();
 
-            System.out.println("Filename : ");
+            System.out.println("Filename (do not write '.png') : ");
             filename = input.nextLine();
 
             System.out.println("Random Seed (> 0) : ");
@@ -64,32 +65,39 @@ public class Painter {
         }
         else {
 
-            filename = "test1005";
+            filename = "test1006";
             strategy = 1;
-            seed = 1005;
+            seed = 1006;
             height = 1200;
             width = 1800;
-            lineWidth = 15;
+            lineWidth = 10;
             minDimensionCut = 20;
-            nbLeaves = 70;
-            sameColorProb = 0.3;
-            cutProportion = 0.1;
+            nbLeaves = 40;
+            sameColorProb = 0.4;
+            cutProportion = 0.2;
         }
 
         randomizer = new Random(seed);
-        settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, randomizer);
 
         if (strategy == 0) {
+
+            palette = new Palette(Color.GRAY, Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW);
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
+            palette = new Palette(new Color(0xd6e6ff), new Color(0xd7f9f8), new Color(0xffffea),
+                                  new Color(0xfff0d4), new Color(0xfbe0e0), new Color(0xe5d4ef));
+
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
+
             T = generateBetterRandomTree(height, width, settings);
         }
 
 
-        image = toImage(T, lineWidth);
+        image = toImage(T, lineWidth, palette.lineColor);
 
         try {
 
@@ -107,7 +115,7 @@ public class Painter {
 
     public static Tree generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(Color.WHITE, new Zone(0, width, 0,  height));
+        Tree T = new Tree(settings.getPalette().colorA, new Zone(0, width, 0,  height));
 
         cutLeaf(T, settings);
 
@@ -129,7 +137,7 @@ public class Painter {
         return generateRandomTree(height, width, settings);
     }
 
-    public static Image toImage(Tree T, int lineWidth) {
+    public static Image toImage(Tree T, int lineWidth, Color lineColor) {
 
         Image image = new Image(T.getWidth(), T.getHeight());
 
@@ -140,7 +148,7 @@ public class Painter {
         else {
 
             fill(image, T);
-            addLineCut(image, T, lineWidth);
+            addLineCut(image, T, lineWidth, lineColor);
         }
 
         return image;
@@ -195,13 +203,13 @@ public class Painter {
         return new BoolIntPair(axis, result);
     }
 
-    private static Color chooseColor(Color FColor, double sameColorProb, Random randomizer) {
+    private static Color chooseColor(Color FColor, Settings settings) {
 
-        double rand = randomizer.nextDouble();
+        double rand = settings.getRandomizer().nextDouble();
 
-        if (rand > sameColorProb) {
+        if (rand > settings.getSameColorProb()) {
 
-            return randomColor(randomizer);
+            return randomColor(settings);
         }
 
         return FColor;
@@ -228,27 +236,28 @@ public class Painter {
         return (int)(size * rand);
     }
 
-    private static Color randomColor(Random randomizer) {
+    private static Color randomColor(Settings settings) {
 
-        int rand = randomizer.nextInt(5);
+        int rand = settings.getRandomizer().nextInt(5);
+        Palette palette = settings.getPalette();
         Color result;
 
         switch (rand) {
 
             case 0:
-                result = Color.WHITE;
+                result = palette.colorA;
                 break;
             case 1:
-                result = Color.BLACK;
+                result = palette.colorB;
                 break;
             case 2:
-                result = Color.BLUE;
+                result = palette.colorC;
                 break;
             case 3:
-                result = Color.RED;
+                result = palette.colorD;
                 break;
             default:
-                result = Color.YELLOW;
+                result = palette.colorE;
                 break;
         }
 
@@ -279,8 +288,8 @@ public class Painter {
             zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
 
-        colorL = chooseColor(T.getColor(), settings.getSameColorProb(), settings.getRandomizer());
-        colorR = chooseColor(T.getColor(), settings.getSameColorProb(), settings.getRandomizer());
+        colorL = chooseColor(T.getColor(), settings);
+        colorR = chooseColor(T.getColor(), settings);
 
         L = new Tree(colorL, zoneL);
         R = new Tree(colorR, zoneR);
@@ -302,21 +311,21 @@ public class Painter {
         }
     }
 
-    private static void addLineCut(Image image, Tree T, int lineWidth) {
+    private static void addLineCut(Image image, Tree T, int lineWidth, Color lineColor) {
 
         if (!T.isLeaf()) {
 
             if (T.getAxis() == Tree.AxisX) {
 
-                image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), Color.GRAY);
+                image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), lineColor);
             }
             else {
 
-                image.setRectangle(T.getLeft(), T.getRight(), T.getLineCut() - lineWidth, T.getLineCut(), Color.GRAY);
+                image.setRectangle(T.getLeft(), T.getRight(), T.getLineCut() - lineWidth, T.getLineCut(), lineColor);
             }
 
-            addLineCut(image, T.getL(), lineWidth);
-            addLineCut(image, T.getR(), lineWidth);
+            addLineCut(image, T.getL(), lineWidth, lineColor);
+            addLineCut(image, T.getR(), lineWidth, lineColor);
         }
     }
 }
