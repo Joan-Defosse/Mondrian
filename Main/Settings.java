@@ -1,7 +1,7 @@
 package Main;
 
 import java.util.Random;
-import Struct.Palette;
+import Struct.Shades;
 
 public class Settings {
 
@@ -11,18 +11,18 @@ public class Settings {
     private int minDimensionCut;
     private double sameColorProb;
     private double cutProportion;
-    private Palette palette;
+    private Shades shades;
     private Random randomizer;
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    public Settings(int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Palette palette, Random randomizer){
+    public Settings(int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Shades shades, Random randomizer){
 
         this.nbLeaves = nbLeaves;
         this.minDimensionCut = minDimensionCut;
         this.sameColorProb = sameColorProb;
         this.cutProportion = cutProportion;
-        this.palette = palette;
+        this.shades = shades;
         this.randomizer = randomizer;
     }
 
@@ -34,6 +34,6 @@ public class Settings {
         return sameColorProb;
     }
     public double getCutProportion() { return cutProportion; }
-    public Palette getPalette() { return palette; }
+    public Shades getShades() { return shades; }
     public Random getRandomizer() { return randomizer; }
 }

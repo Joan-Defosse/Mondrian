@@ -20,7 +20,7 @@ public class Painter {
 
         Scanner input = new Scanner(System.in);
         Random randomizer;
-        Palette palette = null;
+        Shades shades = null;
         Settings settings;
         Tree T;
         Image image;
@@ -43,12 +43,12 @@ public class Painter {
 
                 System.out.println("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
                 answer = input.next();
-                palette = toPalette(answer);
+                shades = toShades(answer);
 
-                if (palette == null) {
+                if (shades == null) {
 
                     System.out.println("Preset was not recognized, set as default.");
-                    palette = Palette.DEFAULT;
+                    shades = Shades.DEFAULT;
                 }
             }
 
@@ -94,23 +94,23 @@ public class Painter {
 
         if (strategy == 0) {
 
-            palette = Palette.DEFAULT;
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
+            shades = Shades.DEFAULT;
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
-            if (palette == null)
-                palette = Palette.GREEN;
+            if (shades == null)
+                shades = Shades.GREEN;
 
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateBetterRandomTree(height, width, settings);
         }
 
 
-        image = toImage(T, lineWidth, palette.lineColor);
+        image = toImage(T, lineWidth, shades.lineColor);
 
         try {
 
@@ -128,7 +128,7 @@ public class Painter {
 
     public static Tree generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(settings.getPalette().colorA, new Zone(0, width, 0,  height));
+        Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
 
         cutLeaf(T, settings);
 
@@ -167,28 +167,28 @@ public class Painter {
         return image;
     }
 
-    public static Palette toPalette(String name) {
+    public static Shades toShades(String name) {
 
         if(name.equalsIgnoreCase("default"))
-            return Palette.DEFAULT;
+            return Shades.DEFAULT;
 
         if(name.equalsIgnoreCase("pastel"))
-            return Palette.PASTEL;
+            return Shades.PASTEL;
 
         if(name.equalsIgnoreCase("wood"))
-            return Palette.WOOD;
+            return Shades.WOOD;
 
         if(name.equalsIgnoreCase("green"))
-            return Palette.GREEN;
+            return Shades.GREEN;
 
         if(name.equalsIgnoreCase("blue"))
-            return Palette.BLUE;
+            return Shades.BLUE;
 
         if(name.equalsIgnoreCase("pink"))
-            return Palette.PINK;
+            return Shades.PINK;
 
         if(name.equalsIgnoreCase("rainbow"))
-            return Palette.RAINBOW;
+            return Shades.RAINBOW;
 
         return null;
     }
@@ -278,25 +278,25 @@ public class Painter {
     private static Color randomColor(Settings settings) {
 
         int rand = settings.getRandomizer().nextInt(5);
-        Palette palette = settings.getPalette();
+        Shades shades = settings.getShades();
         Color result;
 
         switch (rand) {
 
             case 0:
-                result = palette.colorA;
+                result = shades.colorA;
                 break;
             case 1:
-                result = palette.colorB;
+                result = shades.colorB;
                 break;
             case 2:
-                result = palette.colorC;
+                result = shades.colorC;
                 break;
             case 3:
-                result = palette.colorD;
+                result = shades.colorD;
                 break;
             default:
-                result = palette.colorE;
+                result = shades.colorE;
                 break;
         }
 
