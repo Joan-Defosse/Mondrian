@@ -20,7 +20,7 @@ public class Painter {
 
         Scanner input = new Scanner(System.in);
         Random randomizer;
-        Palette palette;
+        Shades shades = null;
         Settings settings;
         Tree T;
         Image image;
@@ -29,43 +29,56 @@ public class Painter {
         double sameColorProb, cutProportion;
 
         System.out.println("Do you want to use your own settings (yes/*) ?");
-        answer = input.nextLine();
+        answer = input.next();
 
         if (answer.equalsIgnoreCase("yes")) {
 
-            System.out.println("Filename (do not write '.png') : ");
-            filename = input.nextLine();
+            System.out.println("Filename (do not write '.png') :");
+            filename = input.next();
 
-            System.out.println("Strategy (0/*) : ");
+            System.out.println("Strategy (0 for default / * for something else) :");
             strategy = input.nextInt();
 
-            System.out.println("Random Seed (> 0) : ");
+            if (strategy != 0) {
+
+                System.out.println("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
+                answer = input.next();
+                shades = toShades(answer);
+
+                if (shades == null) {
+
+                    System.out.println("Preset was not recognized, set as default.");
+                    shades = Shades.DEFAULT;
+                }
+            }
+
+            System.out.println("Random Seed (> 0) :");
             seed = input.nextInt();
 
-            System.out.println("Height (> 0) : ");
+            System.out.println("Height (> 0) :");
             height = input.nextInt();
 
-            System.out.println("Width (> 0) : ");
+            System.out.println("Width (> 0) :");
             width = input.nextInt();
 
-            System.out.println("Lines' Width (> 0) : ");
+            System.out.println("Lines Width (> 0) :");
             lineWidth = input.nextInt();
 
-            System.out.println("Minimum Size to Cut a Dimension (> lineWidth) : ");
+            System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
             minDimensionCut = input.nextInt();
 
             System.out.println("Number of Leaves / Rectangles (> 0) : ");
             nbLeaves = input.nextInt();
 
-            System.out.println("Probabilty of same Color (0.0 <= x < 1.0) : ");
+            System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
             sameColorProb = input.nextDouble();
 
-            System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) : ");
+            System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
             cutProportion = input.nextDouble();
         }
         else {
 
-            filename = "test1006_2";
+            filename = "test1006_6";
             strategy = 1;
             seed = 1006;
             height = 1200;
@@ -81,22 +94,23 @@ public class Painter {
 
         if (strategy == 0) {
 
-            palette = Palette.DEFAULT;
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
+            shades = Shades.DEFAULT;
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
-            palette = Palette.WOOD;
+            if (shades == null)
+                shades = Shades.GREEN;
 
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, palette, randomizer);
+            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateBetterRandomTree(height, width, settings);
         }
 
 
-        image = toImage(T, lineWidth, palette.lineColor);
+        image = toImage(T, lineWidth, shades.lineColor);
 
         try {
 
@@ -114,7 +128,7 @@ public class Painter {
 
     public static Tree generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(settings.getPalette().colorA, new Zone(0, width, 0,  height));
+        Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
 
         cutLeaf(T, settings);
 
@@ -151,6 +165,32 @@ public class Painter {
         }
 
         return image;
+    }
+
+    public static Shades toShades(String name) {
+
+        if(name.equalsIgnoreCase("default"))
+            return Shades.DEFAULT;
+
+        if(name.equalsIgnoreCase("pastel"))
+            return Shades.PASTEL;
+
+        if(name.equalsIgnoreCase("wood"))
+            return Shades.WOOD;
+
+        if(name.equalsIgnoreCase("green"))
+            return Shades.GREEN;
+
+        if(name.equalsIgnoreCase("blue"))
+            return Shades.BLUE;
+
+        if(name.equalsIgnoreCase("pink"))
+            return Shades.PINK;
+
+        if(name.equalsIgnoreCase("rainbow"))
+            return Shades.RAINBOW;
+
+        return null;
     }
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
@@ -238,25 +278,25 @@ public class Painter {
     private static Color randomColor(Settings settings) {
 
         int rand = settings.getRandomizer().nextInt(5);
-        Palette palette = settings.getPalette();
+        Shades shades = settings.getShades();
         Color result;
 
         switch (rand) {
 
             case 0:
-                result = palette.colorA;
+                result = shades.colorA;
                 break;
             case 1:
-                result = palette.colorB;
+                result = shades.colorB;
                 break;
             case 2:
-                result = palette.colorC;
+                result = shades.colorC;
                 break;
             case 3:
-                result = palette.colorD;
+                result = shades.colorD;
                 break;
             default:
-                result = palette.colorE;
+                result = shades.colorE;
                 break;
         }
 
