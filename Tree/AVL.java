@@ -1,8 +1,10 @@
 package Tree;
 
+import Struct.AVLIntPair;
+
 import java.awt.Color;
 
-public class Tree {
+public class AVL {
 
     // PUBLIC STATIC CONST ===================================== //
 
@@ -14,12 +16,12 @@ public class Tree {
     private Color color;
     private Zone zone;
     private Boolean axis;
-    private Integer lineCut;
-    private Tree L, R;
+    private Integer lineCut, balance;
+    private AVL L, R;
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    public Tree(Color color, Zone zone) {
+    public AVL(Color color, Zone zone) {
 
         this.color = color;
         this.zone = zone;
@@ -30,7 +32,7 @@ public class Tree {
         R = null;
     }
 
-    public Tree(Color color, Zone zone, Boolean axis, Integer lineCut) {
+    public AVL(Color color, Zone zone, Boolean axis, Integer lineCut) {
 
         this.color = color;
         this.zone = zone;
@@ -41,7 +43,7 @@ public class Tree {
         R = null;
     }
 
-    public Tree(Color color, Zone zone, Boolean axis, Integer lineCut, Tree L, Tree R) {
+    public AVL(Color color, Zone zone, Boolean axis, Integer lineCut, AVL L, AVL R) {
 
         this.color = color;
         this.zone = zone;
@@ -50,7 +52,7 @@ public class Tree {
 
         if (L != null) {
 
-            this.L = new Tree(L);
+            this.L = new AVL(L);
         }
         else  {
 
@@ -59,7 +61,7 @@ public class Tree {
 
         if (R != null) {
 
-            this.R = new Tree(R);
+            this.R = new AVL(R);
         }
         else  {
 
@@ -67,7 +69,7 @@ public class Tree {
         }
     }
 
-    public Tree(Tree T) {
+    public AVL(AVL T) {
 
         color = T.color;
         zone = T.zone;
@@ -76,7 +78,7 @@ public class Tree {
 
         if (T.L != null) {
 
-            L = new Tree(T.L);
+            L = new AVL(T.L);
         }
         else  {
 
@@ -85,7 +87,7 @@ public class Tree {
 
         if (T.R != null) {
 
-            R = new Tree(T.R);
+            R = new AVL(T.R);
         }
         else  {
 
@@ -105,20 +107,101 @@ public class Tree {
     public int getUp() { return zone.getUp(); }
     public Boolean getAxis() { return axis; }
     public Integer getLineCut() { return lineCut; }
-    public Tree getL() { return L; }
-    public Tree getR() { return R; }
+    public AVL getL() { return L; }
+    public AVL getR() { return R; }
+
+    public AVL Min() { return null; }
+    public AVL Max() { return null; }
 
     // PUBLIC SETTERS ===================================== //
 
     public void setAxis(Boolean axis) { this.axis = axis; }
     public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
-    public void setL(Tree L) { this.L = L; }
-    public void setR(Tree R) { this.R = R; }
+    public void setL(AVL L) { this.L = L; }
+    public void setR(AVL R) { this.R = R; }
 
     // PUBLIC METHODS ===================================== //
 
     public boolean isLeaf() {
 
         return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
+    }
+
+    public AVL LeftRotate() {
+
+        AVL B;
+        int a, b;
+
+        B = this.R;
+        a = this.balance;
+        b = B.balance;
+
+        this.R = B.L;
+        B.L = this;
+
+        this.balance = a - Math.max(b, 0) - 1;
+        B.balance = Math.min(Math.min(a - 2, a + b - 2), b - 1);
+
+        return B;
+    }
+
+    public AVL RightRotate() {
+
+        AVL B;
+        int a, b;
+
+        B = this.L;
+        a = this.balance;
+        b = B.balance;
+
+        this.L = B.R;
+        B.R = this;
+
+        this.balance = a + Math.max(b, 0) + 1;
+        B.balance = Math.min(Math.min(a + 2, a - b + 2), b + 1);
+
+        return B;
+    }
+
+    public AVL balanceAVL() {
+
+        if (balance == 2) {
+
+            if (R.balance >= 0) {
+
+                return LeftRotate();
+            }
+
+            R = R.RightRotate();
+            return LeftRotate();
+        }
+
+        if (balance == -2) {
+
+            if (L.balance <= 0) {
+
+                return RightRotate();
+            }
+
+            L = L.LeftRotate();
+            return RightRotate();
+        }
+
+        return this;
+    }
+    public AVLIntPair add(AVL Tree) {
+
+        return null;
+    }
+
+    public AVLIntPair delete(AVL Tree) {
+
+        return null;
+    }
+
+    public AVLIntPair delete_minimum(AVL Tree)
+    {
+
+        return null;
     }
 }

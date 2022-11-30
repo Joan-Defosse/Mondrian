@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.io.IOException;
 
 /* Use these lines to compile and run :
-* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BoolIntPair.java Struct/Shades.java
+* javac Main/Painter.java Main/Settings.java Image/Image.java AVL/AVL.java AVL/Zone.java Struct/BoolIntPair.java Struct/Shades.java
 * java Main.Painter
 * */
 public class Painter {
@@ -22,7 +22,7 @@ public class Painter {
         Random randomizer;
         Shades shades = null;
         Settings settings;
-        Tree T;
+        AVL T;
         Image image;
         String answer, filename;
         int strategy, seed, height, width, lineWidth, minDimensionCut, nbLeaves;
@@ -126,15 +126,15 @@ public class Painter {
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
-    public static Tree generateRandomTree(int height, int width, Settings settings) {
+    public static AVL generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
+        AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
 
         cutLeaf(T, settings);
 
         for(int i = 2; i < settings.getNbLeaves(); i++) {
 
-            Tree A = chooseLeaf(T, settings.getMinDimensionCut());
+            AVL A = chooseLeaf(T, settings.getMinDimensionCut());
 
             // si aucune feuille ne peut être découpée == fin du programme
             if(A == null)
@@ -145,12 +145,12 @@ public class Painter {
         return T;
     }
 
-    public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
+    public static AVL generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
 
-    public static Image toImage(Tree T, int lineWidth, Color lineColor) {
+    public static Image toImage(AVL T, int lineWidth, Color lineColor) {
 
         Image image = new Image(T.getWidth(), T.getHeight());
 
@@ -195,7 +195,7 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
-    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
+    private static AVL chooseLeaf(AVL T, int minDimensionCut) {
 
         if(T.isLeaf()) {
 
@@ -205,8 +205,8 @@ public class Painter {
             return T;
         }
 
-        Tree L = chooseLeaf(T.getL(), minDimensionCut);
-        Tree R = chooseLeaf(T.getR(), minDimensionCut);
+        AVL L = chooseLeaf(T.getL(), minDimensionCut);
+        AVL R = chooseLeaf(T.getR(), minDimensionCut);
 
         if(R != null && L != null){
 
@@ -230,7 +230,7 @@ public class Painter {
         Boolean axis = chooseAxis(height, width, settings.getRandomizer());
         int result;
 
-        if (axis == Tree.AxisX) {
+        if (axis == AVL.AxisX) {
 
             result = chooseCoordinate(width, settings.getCutProportion(), settings.getRandomizer());
         }
@@ -261,10 +261,10 @@ public class Painter {
 
         if (rand > ProbaX) {
 
-            return Tree.AxisY;
+            return AVL.AxisY;
         }
 
-        return Tree.AxisX;
+        return AVL.AxisX;
     }
 
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
@@ -303,16 +303,16 @@ public class Painter {
         return result;
     }
 
-    private static void cutLeaf(Tree T, Settings settings) {
+    private static void cutLeaf(AVL T, Settings settings) {
 
-        Tree L, R;
+        AVL L, R;
         Zone zoneL, zoneR;
         Color colorL, colorR;
 
         BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
         T.setAxis(bip.axis);
 
-        if (T.getAxis() == Tree.AxisX) {
+        if (T.getAxis() == AVL.AxisX) {
 
             T.setLineCut(T.getLeft() + bip.cut);
 
@@ -330,14 +330,14 @@ public class Painter {
         colorL = chooseColor(T.getColor(), settings);
         colorR = chooseColor(T.getColor(), settings);
 
-        L = new Tree(colorL, zoneL);
-        R = new Tree(colorR, zoneR);
+        L = new AVL(colorL, zoneL);
+        R = new AVL(colorR, zoneR);
 
         T.setL(L);
         T.setR(R);
     }
 
-    private static void fill(Image image, Tree T) {
+    private static void fill(Image image, AVL T) {
 
         if (T.isLeaf()){
 
@@ -350,11 +350,11 @@ public class Painter {
         }
     }
 
-    private static void addLineCut(Image image, Tree T, int lineWidth, Color lineColor) {
+    private static void addLineCut(Image image, AVL T, int lineWidth, Color lineColor) {
 
         if (!T.isLeaf()) {
 
-            if (T.getAxis() == Tree.AxisX) {
+            if (T.getAxis() == AVL.AxisX) {
 
                 image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), lineColor);
             }
