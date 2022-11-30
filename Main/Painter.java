@@ -54,27 +54,67 @@ public class Painter {
 
             System.out.println("Random Seed (> 0) :");
             seed = input.nextInt();
+            while(seed <= 0) {
+                System.err.println("--Error--");
+                System.out.println("Random Seed (> 0) :");
+                seed = input.nextInt();
+            }
 
             System.out.println("Height (> 0) :");
             height = input.nextInt();
+            while(height <= 0) {
+                System.err.println("--Error--");
+                System.out.println("Height (> 0) :");
+                height = input.nextInt();
+            }
 
             System.out.println("Width (> 0) :");
             width = input.nextInt();
+            while(width <= 0) {
+                System.err.println("--Error--");
+                System.out.println("Width (> 0) :");
+                width = input.nextInt();
+            }
 
             System.out.println("Lines Width (> 0) :");
             lineWidth = input.nextInt();
+            while(lineWidth <= 0) {
+                System.err.println("--Error--");
+                System.out.println("Lines Width (> 0) :");
+                lineWidth = input.nextInt();
+            }
 
             System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
             minDimensionCut = input.nextInt();
+            while(minDimensionCut <= lineWidth) {
+                System.err.println("--Error--");
+                System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
+                minDimensionCut = input.nextInt();
+            }
 
             System.out.println("Number of Leaves / Rectangles (> 0) : ");
             nbLeaves = input.nextInt();
+            while(nbLeaves <= 0) {
+                System.err.println("--Error--");
+                System.out.println("Number of Leaves / Rectangles (> 0) : ");
+                nbLeaves = input.nextInt();
+            }
 
             System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
             sameColorProb = Double.parseDouble(input.next());
+            while(sameColorProb <= 0 || sameColorProb >= 1.0) {
+                System.err.println("--Error--");
+                System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
+                sameColorProb = input.nextInt();
+            }
 
             System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
             cutProportion = Double.parseDouble(input.next());
+            while(cutProportion <= 0 || cutProportion >= 0.5) {
+                System.err.println("--Error--");
+                System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+                cutProportion = input.nextInt();
+            }
         }
         else {
 
