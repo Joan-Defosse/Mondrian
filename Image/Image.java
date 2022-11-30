@@ -45,6 +45,25 @@ public class Image
     }
   }
 
+  public void setCircle(int startX, int startY, Color color)
+  {
+    startY = 100;
+    for(int x = 16; x <= 63; x++){
+      for(int y = 100; y <= startY; y++){
+        setPixel(x, y, color);
+      }
+      startY += 1;
+    }
+
+    startX = 110;
+    for(int y = 100; y <= 147; y++) {
+      for (int x = 63; x <= startX; x++) {
+        setPixel(x, y, color);
+      }
+      startX -= 1;
+    }
+  }
+
   /**
    * Saves the image to a file, in PNG format
    */
