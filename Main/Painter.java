@@ -166,6 +166,12 @@ public class Painter {
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
+    /*
+     * Génère un arbre aléatoire 
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     */
     public static Tree generateRandomTree(int height, int width, Settings settings) {
 
         Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
@@ -185,11 +191,23 @@ public class Painter {
         return T;
     }
 
+    /*
+     * Génère un arbre aléatoire avec une procédure différente
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     */
     public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
 
+    /*
+     * Créer une image à partir d'un arbre donné 
+     * T : l'arbre selectionné
+     * lineWidth : la largeur de la ligne
+     * lineColor : la couleur de la ligne
+     */
     public static Image toImage(Tree T, int lineWidth, Color lineColor) {
 
         Image image = new Image(T.getWidth(), T.getHeight());
@@ -207,6 +225,10 @@ public class Painter {
         return image;
     }
 
+    /*
+     * Définit la palette de couleur 
+     * name : le nom de la palette
+     */
     public static Shades toShades(String name) {
 
         if(name.equalsIgnoreCase("default"))
@@ -235,6 +257,11 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
+    /*
+     * Choisi la feuille de l'arbre qui sera divisée 
+     * T : l'arbre choisi
+     * minDimensionCut : la dimension de coupe minimale
+     */
     private static Tree chooseLeaf(Tree T, int minDimensionCut) {
 
         if(T.isLeaf()) {
@@ -265,6 +292,12 @@ public class Painter {
         return R;
     }
 
+    /*
+     * Choisi les modalités de la division de la feuille 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * settings : les paramètres de l'arbre
+     */
     private static BoolIntPair chooseDivision(int height, int width, Settings settings) {
 
         Boolean axis = chooseAxis(height, width, settings.getRandomizer());
@@ -282,6 +315,11 @@ public class Painter {
         return new BoolIntPair(axis, result);
     }
 
+    /*
+     * Choisi la couleur de la feuille
+     * FColor : la couleur de la feuille père
+     * settings : les paramètres de l'arbre
+     */
     private static Color chooseColor(Color FColor, Settings settings) {
 
         double rand = settings.getRandomizer().nextDouble();
@@ -294,6 +332,12 @@ public class Painter {
         return FColor;
     }
 
+    /*
+     * Choisi l'axe de la division 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * randomizer : le nombre aléatoire 
+     */
     private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -307,6 +351,12 @@ public class Painter {
         return Tree.AxisX;
     }
 
+    /*
+     * Choisi les coordonnées de la division
+     * size : taille de la feuille à diviser
+     * proportionCut : limite de la division
+     * randomizer : le nombre aléatoire 
+     */
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -315,6 +365,10 @@ public class Painter {
         return (int)(size * rand);
     }
 
+    /*
+     * Choisi une couleur aléatoirement
+     * settings : les paramètres de l'arbre
+     */
     private static Color randomColor(Settings settings) {
 
         int rand = settings.getRandomizer().nextInt(5);
@@ -343,6 +397,11 @@ public class Painter {
         return result;
     }
 
+    /*
+     * Définit la division d'une feuille
+     * T : l'arbre choisi
+     * settings : les paramètres de l'arbre
+     */
     private static void cutLeaf(Tree T, Settings settings) {
 
         Tree L, R;
@@ -377,6 +436,11 @@ public class Painter {
         T.setR(R);
     }
 
+    /*
+     * Remplis le rectangle créer
+     * image : l'image créée
+     * T : l'arbre choisi
+     */
     private static void fill(Image image, Tree T) {
 
         if (T.isLeaf()){
@@ -390,6 +454,13 @@ public class Painter {
         }
     }
 
+    /*
+     * Ajoute des lignes entre les rectangles
+     * image : l'arbre choisi
+     * T : l'arbre choisi
+     * lineWidth : la largeur de la ligne
+     * lineColor : la couleur de la ligne
+     */
     private static void addLineCut(Image image, Tree T, int lineWidth, Color lineColor) {
 
         if (!T.isLeaf()) {
