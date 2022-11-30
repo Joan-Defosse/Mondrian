@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.io.IOException;
 
 /* Use these lines to compile and run :
-* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BollIntPair.java
+* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BoolIntPair.java Struct/Shades.java
 * java Main.Painter
 * */
 public class Painter {
@@ -71,14 +71,14 @@ public class Painter {
             nbLeaves = input.nextInt();
 
             System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
-            sameColorProb = input.nextDouble();
+            sameColorProb = Double.parseDouble(input.next());
 
             System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
-            cutProportion = input.nextDouble();
+            cutProportion = Double.parseDouble(input.next());
         }
         else {
 
-            filename = "test1006_6";
+            filename = "demo";
             strategy = 1;
             seed = 1006;
             height = 1200;
