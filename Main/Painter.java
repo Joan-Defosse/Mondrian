@@ -29,20 +29,20 @@ public class Painter {
         double sameColorProb, cutProportion;
 
         System.out.println("Do you want to use your own settings (yes/*) ?");
-        answer = input.next();
+        answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
 
             System.out.println("Filename (do not write '.png') :");
-            filename = input.next();
+            filename = input.nextLine();
 
             System.out.println("Strategy (0 for default / * for something else) :");
-            strategy = input.nextInt();
+            strategy = Integer.parseInt(input.nextLine());
 
             if (strategy != 0) {
 
                 System.out.println("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
-                answer = input.next();
+                answer = input.nextLine();
                 shades = toShades(answer);
 
                 if (shades == null) {
@@ -53,81 +53,82 @@ public class Painter {
             }
 
             System.out.println("Random Seed (> 0) :");
-            seed = input.nextInt();
+            seed = Integer.parseInt(input.nextLine());
             while(seed <= 0) {
+
                 System.err.println("--Error--");
                 System.out.println("Random Seed (> 0) :");
-                seed = input.nextInt();
+                seed = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Height (> 0) :");
-            height = input.nextInt();
+            height = Integer.parseInt(input.nextLine());
             while(height <= 0) {
                 System.err.println("--Error--");
                 System.out.println("Height (> 0) :");
-                height = input.nextInt();
+                height = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Width (> 0) :");
-            width = input.nextInt();
+            width = Integer.parseInt(input.nextLine());
             while(width <= 0) {
                 System.err.println("--Error--");
                 System.out.println("Width (> 0) :");
-                width = input.nextInt();
+                width = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Lines Width (> 0) :");
-            lineWidth = input.nextInt();
+            lineWidth = Integer.parseInt(input.nextLine());
             while(lineWidth <= 0) {
                 System.err.println("--Error--");
                 System.out.println("Lines Width (> 0) :");
-                lineWidth = input.nextInt();
+                lineWidth = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
-            minDimensionCut = input.nextInt();
+            minDimensionCut = Integer.parseInt(input.nextLine());
             while(minDimensionCut <= lineWidth) {
                 System.err.println("--Error--");
                 System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
-                minDimensionCut = input.nextInt();
+                minDimensionCut = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Number of Leaves / Rectangles (> 0) : ");
-            nbLeaves = input.nextInt();
+            nbLeaves = Integer.parseInt(input.nextLine());
             while(nbLeaves <= 0) {
                 System.err.println("--Error--");
                 System.out.println("Number of Leaves / Rectangles (> 0) : ");
-                nbLeaves = input.nextInt();
+                nbLeaves = Integer.parseInt(input.nextLine());
             }
 
             System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
-            sameColorProb = Double.parseDouble(input.next());
+            sameColorProb = Double.parseDouble(input.nextLine());
             while(sameColorProb <= 0 || sameColorProb >= 1.0) {
                 System.err.println("--Error--");
                 System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
-                sameColorProb = input.nextInt();
+                sameColorProb = Double.parseDouble(input.nextLine());
             }
 
             System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
-            cutProportion = Double.parseDouble(input.next());
+            cutProportion = Double.parseDouble(input.nextLine());
             while(cutProportion <= 0 || cutProportion >= 0.5) {
                 System.err.println("--Error--");
                 System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
-                cutProportion = input.nextInt();
+                cutProportion = Double.parseDouble(input.nextLine());
             }
         }
         else {
 
-            filename = "AVLtest4";
+            filename = "AVL2000";
             strategy = 1;
-            seed = 1010;
-            height = 1200;
-            width = 1800;
-            lineWidth = 10;
-            minDimensionCut = 20;
-            nbLeaves = 40;
+            seed = 2000;
+            height = 12000;
+            width = 18000;
+            lineWidth = 20;
+            minDimensionCut = 30;
+            nbLeaves = 1000;
             sameColorProb = 0.4;
-            cutProportion = 0.2;
+            cutProportion = 0.15;
         }
 
         randomizer = new Random(seed);
@@ -142,7 +143,7 @@ public class Painter {
         else {
 
             if (shades == null)
-                shades = Shades.BLUE;
+                shades = Shades.PASTEL;
 
             settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
