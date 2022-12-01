@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.io.IOException;
 
 /* Use these lines to compile and run :
-* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BoolIntPair.java Struct/Shades.java
+* javac Main/Painter.java Main/Settings.java Image/Image.java AVL/AVL.java AVL/Zone.java Struct/PairBoolInt.java Struct/Shades.java
 * java Main.Painter
 * */
 public class Painter {
@@ -22,7 +22,7 @@ public class Painter {
         Random randomizer;
         Shades shades = null;
         Settings settings;
-        Tree T;
+        AVL T;
         Image image;
         String answer, filename;
         int strategy, seed, height, width, lineWidth, minDimensionCut, nbLeaves;
@@ -118,9 +118,9 @@ public class Painter {
         }
         else {
 
-            filename = "demo";
+            filename = "AVLtest4";
             strategy = 1;
-            seed = 1006;
+            seed = 1010;
             height = 1200;
             width = 1800;
             lineWidth = 10;
@@ -135,22 +135,22 @@ public class Painter {
         if (strategy == 0) {
 
             shades = Shades.DEFAULT;
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
+            settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
             if (shades == null)
-                shades = Shades.GREEN;
+                shades = Shades.BLUE;
 
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
+            settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateBetterRandomTree(height, width, settings);
         }
 
 
-        image = toImage(T, lineWidth, shades.lineColor);
+        image = toImage(T, width, height, lineWidth, shades.lineColor);
 
         try {
 
@@ -173,22 +173,50 @@ public class Painter {
      * settings : les paramètres de l'arbre
      * Retourne un arbre 
      */
-    public static Tree generateRandomTree(int height, int width, Settings settings) {
+    public static AVL generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
+        AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
+        T.setBalance(0);
 
-        cutLeaf(T, settings);
+        PairAVL P = cutLeaf(T, settings);
+
+        T = T.delete(T).avl;
+
+        if (T == null) {
+
+            T = P.first;
+        }
+        else {
+
+            T = T.add(P.first).avl;
+        }
+
+        T = T.add(P.second).avl;
 
         for(int i = 2; i < settings.getNbLeaves(); i++) {
 
-            Tree A = chooseLeaf(T, settings.getMinDimensionCut());
+            AVL A = chooseLeaf(T, settings.getMinDimensionCut());
 
             // si aucune feuille ne peut être découpée == fin du programme
             if(A == null)
                 return T;
 
-            cutLeaf(A, settings);
+            P = cutLeaf(A, settings);
+
+            T = T.delete(A).avl;
+
+            if (T == null) {
+
+                T = P.first;
+            }
+            else {
+
+                T = T.add(P.first).avl;
+            }
+
+            T = T.add(P.second).avl;
         }
+
         return T;
     }
 
@@ -199,7 +227,7 @@ public class Painter {
      * settings : les paramètres de l'arbre
      * Retourne un arbre
      */
-    public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
+    public static AVL generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
@@ -211,18 +239,18 @@ public class Painter {
      * lineColor : la couleur de la ligne
      * Retourne l'image finale
      */
-    public static Image toImage(Tree T, int lineWidth, Color lineColor) {
+    public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor) {
 
-        Image image = new Image(T.getWidth(), T.getHeight());
+        Image image = new Image(width, height);
 
-        if (T.isLeaf()) {
+        if (T.getR() == null && T.getL() == null) {
 
             image.setRectangle(0, image.width(), 0 , image.height(), T.getColor());
         }
         else {
 
+            image.setRectangle(0, image.width(), 0 , image.height(), lineColor);
             fill(image, T);
-            addLineCut(image, T, lineWidth, lineColor);
         }
 
         return image;
@@ -261,41 +289,23 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
+
     /*
      * Choisi la feuille de l'arbre qui sera divisée 
      * T : l'arbre choisi
      * minDimensionCut : la dimension de coupe minimale
      * Retourne la feuille à diviser
      */
-    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
+    private static AVL chooseLeaf(AVL T, int minDimensionCut) {
 
-        if(T.isLeaf()) {
+        AVL M = T.Max();
 
-            if((T.getHeight() < minDimensionCut) || (T.getWidth() < minDimensionCut))
-                return null;
-
-            return T;
-        }
-
-        Tree L = chooseLeaf(T.getL(), minDimensionCut);
-        Tree R = chooseLeaf(T.getR(), minDimensionCut);
-
-        if(R != null && L != null){
-
-            if(L.getWeight() > R.getWeight())
-                return L;
-
-            return R;
-        }
-
-        if(R == null && L == null)
+        if((M.getHeight() < minDimensionCut) || (M.getWidth() < minDimensionCut))
             return null;
 
-        if(R == null)
-            return L;
-
-        return R;
+        return M;
     }
+
 
     /*
      * Choisi les modalités de la division de la feuille 
@@ -304,12 +314,12 @@ public class Painter {
      * settings : les paramètres de l'arbre
      * Retourne l'axe de division et les coordonnées de la division
      */
-    private static BoolIntPair chooseDivision(int height, int width, Settings settings) {
+    private static PairBoolInt chooseDivision(int height, int width, Settings settings) {
 
         Boolean axis = chooseAxis(height, width, settings.getRandomizer());
         int result;
 
-        if (axis == Tree.AxisX) {
+        if (axis == AVL.AxisX) {
 
             result = chooseCoordinate(width, settings.getCutProportion(), settings.getRandomizer());
         }
@@ -318,7 +328,7 @@ public class Painter {
             result = chooseCoordinate(height, settings.getCutProportion(), settings.getRandomizer());
         }
 
-        return new BoolIntPair(axis, result);
+        return new PairBoolInt(axis, result);
     }
 
     /*
@@ -353,10 +363,10 @@ public class Painter {
 
         if (rand > ProbaX) {
 
-            return Tree.AxisY;
+            return AVL.AxisY;
         }
 
-        return Tree.AxisX;
+        return AVL.AxisX;
     }
 
     /*
@@ -412,38 +422,39 @@ public class Painter {
      * T : l'arbre choisi
      * settings : les paramètres de l'arbre
      */
-    private static void cutLeaf(Tree T, Settings settings) {
+    private static PairAVL cutLeaf(AVL T, Settings settings) {
 
-        Tree L, R;
-        Zone zoneL, zoneR;
-        Color colorL, colorR;
+        AVL A, B;
+        Zone zoneA, zoneB;
+        Color colorA, colorB;
 
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
+        PairBoolInt bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
         T.setAxis(bip.axis);
 
-        if (T.getAxis() == Tree.AxisX) {
+        if (T.getAxis() == AVL.AxisX) {
 
             T.setLineCut(T.getLeft() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getLineCut(), T.getDown(), T.getUp());
-            zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
+            zoneA = new Zone(T.getLeft(), T.getLineCut() - settings.getLineWidth(), T.getDown(), T.getUp());
+            zoneB = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
             T.setLineCut(T.getDown() + bip.cut);
 
-            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut());
-            zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
+            zoneA = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - settings.getLineWidth());
+            zoneB = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
         }
 
-        colorL = chooseColor(T.getColor(), settings);
-        colorR = chooseColor(T.getColor(), settings);
+        colorA = chooseColor(T.getColor(), settings);
+        colorB = chooseColor(T.getColor(), settings);
 
-        L = new Tree(colorL, zoneL);
-        R = new Tree(colorR, zoneR);
+        A = new AVL(colorA, zoneA);
+        A.setBalance(0);
+        B = new AVL(colorB, zoneB);
+        B.setBalance(0);
 
-        T.setL(L);
-        T.setR(R);
+        return new PairAVL(A, B);
     }
 
     /*
@@ -451,41 +462,14 @@ public class Painter {
      * image : l'image créée
      * T : l'arbre choisi
      */
-    private static void fill(Image image, Tree T) {
+    private static void fill(Image image, AVL T) {
 
-        if (T.isLeaf()){
+        image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
 
-            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
-        }
-        else {
-
+        if (T.getL() != null)
             fill(image, T.getL());
+
+        if(T.getR() != null)
             fill(image, T.getR());
-        }
-    }
-
-    /*
-     * Ajoute des lignes entre les rectangles
-     * image : l'arbre choisi
-     * T : l'arbre choisi
-     * lineWidth : la largeur de la ligne
-     * lineColor : la couleur de la ligne
-     */
-    private static void addLineCut(Image image, Tree T, int lineWidth, Color lineColor) {
-
-        if (!T.isLeaf()) {
-
-            if (T.getAxis() == Tree.AxisX) {
-
-                image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), lineColor);
-            }
-            else {
-
-                image.setRectangle(T.getLeft(), T.getRight(), T.getLineCut() - lineWidth, T.getLineCut(), lineColor);
-            }
-
-            addLineCut(image, T.getL(), lineWidth, lineColor);
-            addLineCut(image, T.getR(), lineWidth, lineColor);
-        }
     }
 }
