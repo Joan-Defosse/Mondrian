@@ -166,6 +166,13 @@ public class Painter {
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
+    /*
+     * Génère un arbre aléatoire 
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre 
+     */
     public static AVL generateRandomTree(int height, int width, Settings settings) {
 
         AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
@@ -213,11 +220,25 @@ public class Painter {
         return T;
     }
 
+    /*
+     * Génère un arbre aléatoire avec une procédure différente
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre
+     */
     public static AVL generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
 
+    /*
+     * Créer une image à partir d'un arbre donné 
+     * T : l'arbre selectionné
+     * lineWidth : la largeur de la ligne
+     * lineColor : la couleur de la ligne
+     * Retourne l'image finale
+     */
     public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor) {
 
         Image image = new Image(width, height);
@@ -235,6 +256,11 @@ public class Painter {
         return image;
     }
 
+    /*
+     * Définit la palette de couleur 
+     * name : le nom de la palette
+     * Retourne la palette de couleur
+     */
     public static Shades toShades(String name) {
 
         if(name.equalsIgnoreCase("default"))
@@ -263,6 +289,13 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
+
+    /*
+     * Choisi la feuille de l'arbre qui sera divisée 
+     * T : l'arbre choisi
+     * minDimensionCut : la dimension de coupe minimale
+     * Retourne la feuille à diviser
+     */
     private static AVL chooseLeaf(AVL T, int minDimensionCut) {
 
         AVL M = T.Max();
@@ -273,6 +306,14 @@ public class Painter {
         return M;
     }
 
+
+    /*
+     * Choisi les modalités de la division de la feuille 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * settings : les paramètres de l'arbre
+     * Retourne l'axe de division et les coordonnées de la division
+     */
     private static PairBoolInt chooseDivision(int height, int width, Settings settings) {
 
         Boolean axis = chooseAxis(height, width, settings.getRandomizer());
@@ -290,6 +331,12 @@ public class Painter {
         return new PairBoolInt(axis, result);
     }
 
+    /*
+     * Choisi la couleur de la feuille
+     * FColor : la couleur de la feuille père
+     * settings : les paramètres de l'arbre
+     * Retourne la couleur de la feuille
+     */
     private static Color chooseColor(Color FColor, Settings settings) {
 
         double rand = settings.getRandomizer().nextDouble();
@@ -302,6 +349,13 @@ public class Painter {
         return FColor;
     }
 
+    /*
+     * Choisi l'axe de la division 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * randomizer : le nombre aléatoire 
+     * Retourne AxisX ou AxisY 
+     */
     private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -315,6 +369,13 @@ public class Painter {
         return AVL.AxisX;
     }
 
+    /*
+     * Choisi les coordonnées de la division
+     * size : taille de la feuille à diviser
+     * proportionCut : limite de la division
+     * randomizer : le nombre aléatoire 
+     * Retourne les coordonnées de la division
+     */
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -323,6 +384,11 @@ public class Painter {
         return (int)(size * rand);
     }
 
+    /*
+     * Choisi une couleur aléatoirement
+     * settings : les paramètres de l'arbre
+     * Retourne une couleur aléatoire
+     */
     private static Color randomColor(Settings settings) {
 
         int rand = settings.getRandomizer().nextInt(5);
@@ -351,6 +417,11 @@ public class Painter {
         return result;
     }
 
+    /*
+     * Définit la division d'une feuille
+     * T : l'arbre choisi
+     * settings : les paramètres de l'arbre
+     */
     private static PairAVL cutLeaf(AVL T, Settings settings) {
 
         AVL A, B;
@@ -386,6 +457,11 @@ public class Painter {
         return new PairAVL(A, B);
     }
 
+    /*
+     * Remplis le rectangle créer
+     * image : l'image créée
+     * T : l'arbre choisi
+     */
     private static void fill(Image image, AVL T) {
 
         image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());

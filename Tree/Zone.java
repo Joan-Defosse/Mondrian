@@ -5,12 +5,19 @@ public class Zone {
     // PRIVATE ATTRIBUTES ===================================== //
 
     private int left; // startX
-    private int right; // endX
+    private int right; // endX 
     private int down; // startY
     private int up; // endY
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
+    /*
+     * Constructeur de la classe Zone
+     * left : limite de la zone à gauche 
+     * right : limite de la zone à droite 
+     * down : limite basse de la zone
+     * up : limite haute de la zone
+     */
     public Zone(int left, int right, int down, int up) {
 
         this.left = left;

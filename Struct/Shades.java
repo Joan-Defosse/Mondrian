@@ -1,5 +1,5 @@
 package Struct;
-
+ 
 import java.awt.Color;
 
 public class Shades {
@@ -37,6 +37,11 @@ public class Shades {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
+    /*
+     * Constructeur de la classe Shades 
+     * lineColor : la couleur des bordures
+     * colorA, colorB, colorC,  colorB, colorE: une couleur de la palette
+     */
     public Shades(Color lineColor, Color colorA, Color colorB, Color colorC, Color colorD, Color colorE) {
 
         this.lineColor = lineColor;

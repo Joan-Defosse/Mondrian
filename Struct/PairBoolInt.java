@@ -1,4 +1,4 @@
-package Struct;
+package Struct; 
 
 public class PairBoolInt {
 
@@ -9,6 +9,11 @@ public class PairBoolInt {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
+    /*
+     * Constructeur de la classe BoolIntPair
+     * axis : l'axe de division
+     * cut : coordonnée de la division
+     */
     public PairBoolInt(Boolean axis, int cut)  {
 
         this.axis = axis;

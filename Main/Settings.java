@@ -17,6 +17,15 @@ public class Settings {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
+    /*
+     * Constructeur de la classe Settings
+     * nbLeaves : le nombre maximum de feuille dans l'arbre
+     * mindimensionCut : dimension minimum d'une feuille 
+     * sameColorProb : la probabilité d'avoir la même couleur que la feuille père
+     * cutProportion : limite de coupe sur les bords
+     * shades : la palette de couleur
+     * randomizer : un nombre aléatoire
+     */
     public Settings(int lineWidth, int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Shades shades, Random randomizer){
 
         this.lineWidth = lineWidth;
