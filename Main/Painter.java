@@ -171,6 +171,7 @@ public class Painter {
      * height : la hauteur de l'arbre
      * width : la largeur de l'arbre
      * settings : les paramètres de l'arbre
+     * Retourne un arbre 
      */
     public static Tree generateRandomTree(int height, int width, Settings settings) {
 
@@ -196,6 +197,7 @@ public class Painter {
      * height : la hauteur de l'arbre
      * width : la largeur de l'arbre
      * settings : les paramètres de l'arbre
+     * Retourne un arbre
      */
     public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
 
@@ -207,6 +209,7 @@ public class Painter {
      * T : l'arbre selectionné
      * lineWidth : la largeur de la ligne
      * lineColor : la couleur de la ligne
+     * Retourne l'image finale
      */
     public static Image toImage(Tree T, int lineWidth, Color lineColor) {
 
@@ -228,6 +231,7 @@ public class Painter {
     /*
      * Définit la palette de couleur 
      * name : le nom de la palette
+     * Retourne la palette de couleur
      */
     public static Shades toShades(String name) {
 
@@ -261,6 +265,7 @@ public class Painter {
      * Choisi la feuille de l'arbre qui sera divisée 
      * T : l'arbre choisi
      * minDimensionCut : la dimension de coupe minimale
+     * Retourne la feuille à diviser
      */
     private static Tree chooseLeaf(Tree T, int minDimensionCut) {
 
@@ -297,6 +302,7 @@ public class Painter {
      * height : la hauteur de la feuille
      * width : la largeur de la feuille
      * settings : les paramètres de l'arbre
+     * Retourne l'axe de division et les coordonnées de la division
      */
     private static BoolIntPair chooseDivision(int height, int width, Settings settings) {
 
@@ -319,6 +325,7 @@ public class Painter {
      * Choisi la couleur de la feuille
      * FColor : la couleur de la feuille père
      * settings : les paramètres de l'arbre
+     * Retourne la couleur de la feuille
      */
     private static Color chooseColor(Color FColor, Settings settings) {
 
@@ -337,6 +344,7 @@ public class Painter {
      * height : la hauteur de la feuille
      * width : la largeur de la feuille
      * randomizer : le nombre aléatoire 
+     * Retourne AxisX ou AxisY 
      */
     private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
@@ -356,6 +364,7 @@ public class Painter {
      * size : taille de la feuille à diviser
      * proportionCut : limite de la division
      * randomizer : le nombre aléatoire 
+     * Retourne les coordonnées de la division
      */
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
@@ -368,6 +377,7 @@ public class Painter {
     /*
      * Choisi une couleur aléatoirement
      * settings : les paramètres de l'arbre
+     * Retourne une couleur aléatoire
      */
     private static Color randomColor(Settings settings) {
 

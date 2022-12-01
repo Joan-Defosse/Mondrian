@@ -1,6 +1,6 @@
 package Tree;
 
-import java.awt.Color;
+import java.awt.Color; 
 
 public class Tree {
 
@@ -19,6 +19,13 @@ public class Tree {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
+    /*
+     * Génère un arbre aléatoire 
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre 
+     */
     public Tree(Color color, Zone zone) {
 
         this.color = color;
@@ -117,6 +124,13 @@ public class Tree {
 
     // PUBLIC METHODS ===================================== //
 
+    /*
+     * Génère un arbre aléatoire 
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre 
+     */
     public boolean isLeaf() {
 
         return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
