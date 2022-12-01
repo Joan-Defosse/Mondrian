@@ -2,18 +2,18 @@ package Struct;
 
 import Tree.AVL;
 
-public class AVLIntPair {
+public class PairAVL {
 
     // PUBLIC ATTRIBUTES ===================================== //
 
-    public AVL avl;
-    public Integer value;
+    public AVL first;
+    public AVL second;
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    public AVLIntPair(AVL avl, Integer value)  {
+    public PairAVL(AVL first, AVL second)  {
 
-        this.avl = avl;
-        this.value = value;
+        this.first = first;
+        this.second = second;
     }
 }

@@ -1,6 +1,6 @@
 package Struct;
 
-public class BoolIntPair {
+public class PairBoolInt {
 
     // PUBLIC ATTRIBUTES ===================================== //
 
@@ -9,7 +9,7 @@ public class BoolIntPair {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    public BoolIntPair(Boolean axis, int cut)  {
+    public PairBoolInt(Boolean axis, int cut)  {
 
         this.axis = axis;
         this.cut = cut;

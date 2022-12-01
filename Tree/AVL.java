@@ -1,6 +1,6 @@
 package Tree;
 
-import Struct.AVLIntPair;
+import Struct.PairAVLInt;
 
 import java.awt.Color;
 
@@ -137,17 +137,149 @@ public class AVL {
 
     // PUBLIC METHODS ===================================== //
 
-    public boolean isLeaf() {
+    public PairAVLInt add(AVL Tree) {
 
-        return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
+        int h;
+
+        if (zone == null) {
+
+            Tree.setBalance(0);
+            return new PairAVLInt(Tree, 1);
+        }
+
+        if (this == Tree) {
+
+            return new PairAVLInt(this, 0);
+        }
+
+        if (Tree.getWeight() >= getWeight()) {
+
+            if (R == null) {
+
+                R = Tree;
+                h = 1;
+            }
+            else {
+
+                PairAVLInt P = R.add(Tree);
+                R = P.avl;
+                h = P.value;
+            }
+        }
+        else {
+
+            if (L == null) {
+
+                L = Tree;
+                h = -1;
+            }
+            else {
+
+                PairAVLInt P = L.add(Tree);
+                L = P.avl;
+                h = - P.value;
+            }
+        }
+
+        if (h == 0) {
+
+            return new PairAVLInt(this, 0);
+        }
+
+        balance += h;
+        AVL balancedAVL = balanceAVL();
+
+        if (balancedAVL.balance == 0) {
+
+            return new PairAVLInt(balancedAVL, 0);
+        }
+
+        return new PairAVLInt(balancedAVL, 1);
     }
 
-    public boolean equals(AVL Tree) {
+    public PairAVLInt delete(AVL Tree) {
 
-        return (zone == Tree.zone) && (color == Tree.color);
+        int h;
+
+        if (zone == null) {
+
+            return new PairAVLInt(this, 0);
+        }
+        if (Tree.getWeight() > getWeight()) {
+
+            if (R == null) {
+
+                return new PairAVLInt(this, 0);
+            }
+
+            PairAVLInt P = R.delete(Tree);
+            R = P.avl;
+            h = P.value;
+        }
+        else if(Tree.getWeight() < getWeight()) {
+
+            if (L == null) {
+
+                return new PairAVLInt(this, 0);
+            }
+
+            PairAVLInt P = L.delete(Tree);
+            L = P.avl;
+            h = - P.value;
+        }
+        else if (this != Tree) {
+
+            if (R == null) {
+
+                return new PairAVLInt(this, 0);
+            }
+
+            PairAVLInt P = R.delete(Tree);
+            R = P.avl;
+            h = P.value;
+        }
+        else {
+
+            if (L == null) {
+
+                return new PairAVLInt(R, -1);
+            }
+
+            if (R == null) {
+
+                return new PairAVLInt(L, -1);
+            }
+
+            AVL T = R.Min();
+
+            this.color = T.color;
+            this.zone = T.zone;
+            this.axis = T.axis;
+            this.lineCut = T.lineCut;
+
+            PairAVLInt P = R.delete_minimum();
+            R = P.avl;
+            h = P.value;
+        }
+
+        if (h == 0) {
+
+            return new PairAVLInt(this, 0);
+        }
+
+        balance += h;
+        AVL balancedAVL = balanceAVL();
+
+        if (balancedAVL.balance == 0) {
+
+            return new PairAVLInt(balancedAVL, -1);
+        }
+
+        return new PairAVLInt(balancedAVL, 0);
     }
 
-    public AVL LeftRotate() {
+    // PRIVATE METHODS ===================================== //
+    private AVL LeftRotate() {
 
         AVL B;
         int a, b;
@@ -165,7 +297,7 @@ public class AVL {
         return B;
     }
 
-    public AVL RightRotate() {
+    private AVL RightRotate() {
 
         AVL B;
         int a, b;
@@ -183,7 +315,7 @@ public class AVL {
         return B;
     }
 
-    public AVL balanceAVL() {
+    private AVL balanceAVL() {
 
         if (balance == 2) {
 
@@ -209,173 +341,33 @@ public class AVL {
 
         return this;
     }
-    public AVLIntPair add(AVL Tree) {
 
-        int h;
-
-        if (zone == null) {
-
-            Tree.setBalance(0);
-            return new AVLIntPair(Tree, 1);
-        }
-
-        if (this == Tree) {
-
-            return new AVLIntPair(this, 0);
-        }
-
-        if (Tree.getWeight() >= getWeight()) {
-
-            if (R == null) {
-
-                R = Tree;
-                h = 1;
-            }
-            else {
-
-                AVLIntPair P = R.add(Tree);
-                R = P.avl;
-                h = P.value;
-            }
-        }
-        else {
-
-            if (L == null) {
-
-                L = Tree;
-                h = -1;
-            }
-            else {
-
-                AVLIntPair P = L.add(Tree);
-                L = P.avl;
-                h = - P.value;
-            }
-        }
-
-        if (h == 0) {
-
-            return new AVLIntPair(this, 0);
-        }
-
-        balance += h;
-        balanceAVL();
-
-        if (balance == 0) {
-
-            return new AVLIntPair(this, 0);
-        }
-
-        return new AVLIntPair(this, 1);
-    }
-
-    public AVLIntPair delete(AVL Tree) {
-
-        int h;
-
-        if (zone == null) {
-
-            return new AVLIntPair(this, 0);
-        }
-        if (Tree.getWeight() > getWeight()) {
-
-            if (R == null) {
-
-                return new AVLIntPair(this, 0);
-            }
-
-            AVLIntPair P = R.delete(Tree);
-            R = P.avl;
-            h = P.value;
-        }
-        else if(Tree.getWeight() < getWeight()) {
-
-            if (L == null) {
-
-                return new AVLIntPair(this, 0);
-            }
-
-            AVLIntPair P = L.delete(Tree);
-            L = P.avl;
-            h = - P.value;
-        }
-        else if (this != Tree) {
-
-            if (R == null) {
-
-                return new AVLIntPair(this, 0);
-            }
-
-            AVLIntPair P = R.delete(Tree);
-            R = P.avl;
-            h = P.value;
-        }
-        else {
-
-            if (L == null) {
-
-                return new AVLIntPair(R, -1);
-            }
-
-            if (R == null) {
-
-                return new AVLIntPair(L, -1);
-            }
-
-            AVL T = R.Min();
-
-            this.color = T.color;
-            this.zone = T.zone;
-            this.axis = T.axis;
-            this.lineCut = T.lineCut;
-
-            AVLIntPair P = R.delete_minimum();
-            R = P.avl;
-            h = P.value;
-        }
-
-        if (h == 0) {
-
-            return new AVLIntPair(this, 0);
-        }
-
-        balance += h;
-        balanceAVL();
-
-        if (balance == 0) {
-
-            return new AVLIntPair(this, -1);
-        }
-
-        return new AVLIntPair(this, 0);
-    }
-
-    public AVLIntPair delete_minimum() {
+    private PairAVLInt delete_minimum() {
 
         int h;
 
         if (L == null) {
 
-            return new AVLIntPair(R, -1);
+            return new PairAVLInt(R, -1);
         }
 
-        AVLIntPair P = L.delete_minimum();
+        PairAVLInt P = L.delete_minimum();
         L = P.avl;
         h = - P.value;
 
         if (h == 0) {
 
-            return new AVLIntPair(this, 0);
+            return new PairAVLInt(this, 0);
         }
 
         balance += h;
-        balanceAVL();
+        AVL balancedAVL = balanceAVL();
 
-        if (balance == 0) {
+        if (balancedAVL.balance == 0) {
 
-            return new AVLIntPair(this, -1);
+            return new PairAVLInt(balancedAVL, -1);
         }
 
-        return new AVLIntPair(this, 0);
+        return new PairAVLInt(balancedAVL, 0);
     }
 }
