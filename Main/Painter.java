@@ -1,8 +1,11 @@
 package Main;
 
-import Tree.*;
-import Image.*;
-import Struct.*;
+import Tree.AVL;
+import Tree.Zone;
+import Image.Image;
+import Struct.PairBoolInt;
+import Struct.PairAVL;
+import Struct.Shades;
 import java.awt.Color;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,30 +21,39 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Scanner input = new Scanner(System.in);
         Random randomizer;
-        Shades shades = null;
         Settings settings;
         AVL T;
         Image image;
-        String answer, filename;
-        int strategy, seed, height, width, lineWidth, minDimensionCut, nbLeaves;
-        double sameColorProb, cutProportion;
+        Shades shades = Shades.PINK;
+        String filename = "failed_input";
+        Integer strategy = 1;
+        Integer seed = 2002;
+        Integer height = 2160;
+        Integer width = 4096;
+        Integer lineWidth = 20;
+        Integer minDimensionCut = 30;
+        Integer nbLeaves = 2000;
+        Double sameColorProb = 0.4;
+        Double cutProportion = 0.15;
 
-        System.out.println("Do you want to use your own settings (yes/*) ?");
+        Scanner input = new Scanner(System.in);
+        String answer;
+
+        System.out.print("Do you want to use your own settings (yes/*) ?");
         answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
 
-            System.out.println("Filename (do not write '.png') :");
+            System.out.print("Filename (do not write '.png') :");
             filename = input.nextLine();
 
-            System.out.println("Strategy (0 for default / * for something else) :");
+            System.out.print("Strategy (0 for default / * for something else) :");
             strategy = Integer.parseInt(input.nextLine());
 
             if (strategy != 0) {
 
-                System.out.println("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
+                System.out.print("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
                 answer = input.nextLine();
                 shades = toShades(answer);
 
@@ -52,83 +64,85 @@ public class Painter {
                 }
             }
 
-            System.out.println("Random Seed (> 0) :");
+            System.out.print("Random Seed (> 0) :");
             seed = Integer.parseInt(input.nextLine());
+
             while(seed <= 0) {
 
-                System.err.println("--Error--");
-                System.out.println("Random Seed (> 0) :");
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Random Seed (> 0) :");
                 seed = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Height (> 0) :");
+            System.out.print("Height (> 0) :");
             height = Integer.parseInt(input.nextLine());
+
             while(height <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Height (> 0) :");
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Height (> 0) :");
                 height = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Width (> 0) :");
+            System.out.print("Width (> 0) :");
             width = Integer.parseInt(input.nextLine());
+
             while(width <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Width (> 0) :");
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Width (> 0) :");
                 width = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Lines Width (> 0) :");
+            System.out.print("Lines Width (> 0) :");
             lineWidth = Integer.parseInt(input.nextLine());
+
             while(lineWidth <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Lines Width (> 0) :");
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Lines Width (> 0) :");
                 lineWidth = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
+            System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
             minDimensionCut = Integer.parseInt(input.nextLine());
+
             while(minDimensionCut <= lineWidth) {
-                System.err.println("--Error--");
-                System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
                 minDimensionCut = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Number of Leaves / Rectangles (> 0) : ");
+            System.out.print("Number of Leaves / Rectangles (> 0) : ");
             nbLeaves = Integer.parseInt(input.nextLine());
+
             while(nbLeaves <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Number of Leaves / Rectangles (> 0) : ");
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Number of Leaves / Rectangles (> 0) : ");
                 nbLeaves = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
+            System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
             sameColorProb = Double.parseDouble(input.nextLine());
-            while(sameColorProb <= 0 || sameColorProb >= 1.0) {
-                System.err.println("--Error--");
-                System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
+
+            while(sameColorProb < 0.0 || sameColorProb >= 1.0) {
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
                 sameColorProb = Double.parseDouble(input.nextLine());
             }
 
-            System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+            System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
             cutProportion = Double.parseDouble(input.nextLine());
-            while(cutProportion <= 0 || cutProportion >= 0.5) {
-                System.err.println("--Error--");
-                System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+
+            while(cutProportion < 0.0 || cutProportion >= 0.5) {
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
                 cutProportion = Double.parseDouble(input.nextLine());
             }
-        }
-        else {
-
-            filename = "AVL2000";
-            strategy = 1;
-            seed = 2000;
-            height = 12000;
-            width = 18000;
-            lineWidth = 20;
-            minDimensionCut = 30;
-            nbLeaves = 1000;
-            sameColorProb = 0.4;
-            cutProportion = 0.15;
         }
 
         randomizer = new Random(seed);
@@ -142,14 +156,10 @@ public class Painter {
         }
         else {
 
-            if (shades == null)
-                shades = Shades.PASTEL;
-
             settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateBetterRandomTree(height, width, settings);
         }
-
 
         image = toImage(T, width, height, lineWidth, shades.lineColor);
 
@@ -162,7 +172,7 @@ public class Painter {
             throw new RuntimeException(e);
         }
 
-        System.out.println("No build error. You can find your picture in the output directory.");
+        System.out.println("Thanks for using our generator !\nYou can find your picture in the output directory.");
     }
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
@@ -289,7 +299,6 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
-
     /*
      * Choisi la feuille de l'arbre qui sera divisée 
      * T : l'arbre choisi
@@ -305,7 +314,6 @@ public class Painter {
 
         return M;
     }
-
 
     /*
      * Choisi les modalités de la division de la feuille 
