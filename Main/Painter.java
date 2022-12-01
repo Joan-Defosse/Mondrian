@@ -177,7 +177,6 @@ public class Painter {
     public static AVL generateRandomTree(int height, int width, Settings settings) {
 
         AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
-        T.setBalance(0);
 
         PairAVL P = cutLeaf(T, settings);
 
@@ -429,31 +428,30 @@ public class Painter {
         Zone zoneA, zoneB;
         Color colorA, colorB;
 
-        PairBoolInt bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
-        T.setAxis(bip.axis);
+        PairBoolInt P = chooseDivision(T.getHeight(), T.getWidth(), settings);
 
-        if (T.getAxis() == AVL.AxisX) {
+        if (P.bool == AVL.AxisX) {
 
-            T.setLineCut(T.getLeft() + bip.cut);
+            int lineCut = T.getLeft() + P.value;
+            int limit = lineCut - settings.getLineWidth();
 
-            zoneA = new Zone(T.getLeft(), T.getLineCut() - settings.getLineWidth(), T.getDown(), T.getUp());
-            zoneB = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
+            zoneA = new Zone(T.getLeft(), limit, T.getDown(), T.getUp());
+            zoneB = new Zone(lineCut, T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
-            T.setLineCut(T.getDown() + bip.cut);
+            int lineCut = T.getDown() + P.value;
+            int limit = lineCut - settings.getLineWidth();
 
-            zoneA = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut() - settings.getLineWidth());
-            zoneB = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
+            zoneA = new Zone(T.getLeft(), T.getRight(), T.getDown(), limit);
+            zoneB = new Zone(T.getLeft(), T.getRight(), lineCut, T.getUp());
         }
 
         colorA = chooseColor(T.getColor(), settings);
         colorB = chooseColor(T.getColor(), settings);
 
         A = new AVL(colorA, zoneA);
-        A.setBalance(0);
         B = new AVL(colorB, zoneB);
-        B.setBalance(0);
 
         return new PairAVL(A, B);
     }

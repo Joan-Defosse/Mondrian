@@ -15,8 +15,7 @@ public class AVL {
 
     private Color color;
     private Zone zone;
-    private Boolean axis;
-    private Integer lineCut, balance;
+    private Integer balance;
     private AVL L, R;
 
     // PUBLIC CONSTRUCTORS ===================================== //
@@ -25,74 +24,10 @@ public class AVL {
 
         this.color = color;
         this.zone = zone;
-
-        axis = null;
-        lineCut = null;
-        L = null;
-        R = null;
-    }
-
-    public AVL(Color color, Zone zone, Boolean axis, Integer lineCut) {
-
-        this.color = color;
-        this.zone = zone;
-        this.axis = axis;
-        this.lineCut = lineCut;
+        this.balance = 0;
 
         L = null;
         R = null;
-    }
-
-    public AVL(Color color, Zone zone, Boolean axis, Integer lineCut, AVL L, AVL R) {
-
-        this.color = color;
-        this.zone = zone;
-        this.axis = axis;
-        this.lineCut = lineCut;
-
-        if (L != null) {
-
-            this.L = new AVL(L);
-        }
-        else  {
-
-            this.L = null;
-        }
-
-        if (R != null) {
-
-            this.R = new AVL(R);
-        }
-        else  {
-
-            this.R = null;
-        }
-    }
-
-    public AVL(AVL T) {
-
-        color = T.color;
-        zone = T.zone;
-        axis = T.axis;
-        lineCut = T.lineCut;
-
-        if (T.L != null) {
-
-            L = new AVL(T.L);
-        }
-        else  {
-
-            L = null;
-        }
-
-        if (T.R != null) {
-
-            R = new AVL(T.R);
-        }
-        else  {
-
-            R = null;
-        }
     }
 
     // PUBLIC GETTERS ===================================== //
@@ -105,8 +40,6 @@ public class AVL {
     public int getRight() { return zone.getRight(); }
     public int getDown() { return zone.getDown(); }
     public int getUp() { return zone.getUp(); }
-    public Boolean getAxis() { return axis; }
-    public Integer getLineCut() { return lineCut; }
     public AVL getL() { return L; }
     public AVL getR() { return R; }
 
@@ -129,12 +62,6 @@ public class AVL {
         return R.Max();
     }
 
-    // PUBLIC SETTERS ===================================== //
-
-    public void setAxis(Boolean axis) { this.axis = axis; }
-    public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
-    public void setBalance(Integer balance) { this.balance = balance; }
-
     // PUBLIC METHODS ===================================== //
 
     public PairAVLInt add(AVL Tree) {
@@ -143,8 +70,7 @@ public class AVL {
 
         if (zone == null) {
 
-            Tree.setBalance(0);
-            return new PairAVLInt(Tree, 1);
+            return new PairAVLInt(new AVL(Tree.color, Tree.zone), 1);
         }
 
         if (this == Tree) {
@@ -254,8 +180,6 @@ public class AVL {
 
             this.color = T.color;
             this.zone = T.zone;
-            this.axis = T.axis;
-            this.lineCut = T.lineCut;
 
             PairAVLInt P = R.delete_minimum();
             R = P.avl;

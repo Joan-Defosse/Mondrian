@@ -4,8 +4,8 @@ public class PairBoolInt {
 
     // PUBLIC ATTRIBUTES ===================================== //
 
-    public Boolean axis;
-    public int cut;
+    public Boolean bool;
+    public int value;
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
@@ -14,9 +14,9 @@ public class PairBoolInt {
      * axis : l'axe de division
      * cut : coordonnée de la division
      */
-    public PairBoolInt(Boolean axis, int cut)  {
+    public PairBoolInt(Boolean bool, int value)  {
 
-        this.axis = axis;
-        this.cut = cut;
+        this.bool = bool;
+        this.value = value;
     }
 }
