@@ -110,21 +110,41 @@ public class AVL {
     public AVL getL() { return L; }
     public AVL getR() { return R; }
 
-    public AVL Min() { return null; }
-    public AVL Max() { return null; }
+    public AVL Min() {
+
+        if (L == null) {
+
+            return this;
+        }
+
+        return L.Min();
+    }
+    public AVL Max() {
+
+        if (R == null) {
+
+            return this;
+        }
+
+        return R.Max();
+    }
 
     // PUBLIC SETTERS ===================================== //
 
     public void setAxis(Boolean axis) { this.axis = axis; }
     public void setLineCut(Integer lineCut) { this.lineCut =  lineCut; }
-    public void setL(AVL L) { this.L = L; }
-    public void setR(AVL R) { this.R = R; }
+    public void setBalance(Integer balance) { this.balance = balance; }
 
     // PUBLIC METHODS ===================================== //
 
     public boolean isLeaf() {
 
         return (color != null && zone != null && L == null && R == null && lineCut == null && axis == null);
+    }
+
+    public boolean equals(AVL Tree) {
+
+        return (zone == Tree.zone) && (color == Tree.color);
     }
 
     public AVL LeftRotate() {
@@ -157,8 +177,8 @@ public class AVL {
         this.L = B.R;
         B.R = this;
 
-        this.balance = a + Math.max(b, 0) + 1;
-        B.balance = Math.min(Math.min(a + 2, a - b + 2), b + 1);
+        this.balance = a - Math.min(b, 0) + 1;
+        B.balance = Math.max(Math.max(a + 2, a + b + 2), b + 1);
 
         return B;
     }
@@ -191,17 +211,171 @@ public class AVL {
     }
     public AVLIntPair add(AVL Tree) {
 
-        return null;
+        int h;
+
+        if (zone == null) {
+
+            Tree.setBalance(0);
+            return new AVLIntPair(Tree, 1);
+        }
+
+        if (this == Tree) {
+
+            return new AVLIntPair(this, 0);
+        }
+
+        if (Tree.getWeight() >= getWeight()) {
+
+            if (R == null) {
+
+                R = Tree;
+                h = 1;
+            }
+            else {
+
+                AVLIntPair P = R.add(Tree);
+                R = P.avl;
+                h = P.value;
+            }
+        }
+        else {
+
+            if (L == null) {
+
+                L = Tree;
+                h = -1;
+            }
+            else {
+
+                AVLIntPair P = L.add(Tree);
+                L = P.avl;
+                h = - P.value;
+            }
+        }
+
+        if (h == 0) {
+
+            return new AVLIntPair(this, 0);
+        }
+
+        balance += h;
+        balanceAVL();
+
+        if (balance == 0) {
+
+            return new AVLIntPair(this, 0);
+        }
+
+        return new AVLIntPair(this, 1);
     }
 
     public AVLIntPair delete(AVL Tree) {
 
-        return null;
+        int h;
+
+        if (zone == null) {
+
+            return new AVLIntPair(this, 0);
+        }
+        if (Tree.getWeight() > getWeight()) {
+
+            if (R == null) {
+
+                return new AVLIntPair(this, 0);
+            }
+
+            AVLIntPair P = R.delete(Tree);
+            R = P.avl;
+            h = P.value;
+        }
+        else if(Tree.getWeight() < getWeight()) {
+
+            if (L == null) {
+
+                return new AVLIntPair(this, 0);
+            }
+
+            AVLIntPair P = L.delete(Tree);
+            L = P.avl;
+            h = - P.value;
+        }
+        else if (this != Tree) {
+
+            if (R == null) {
+
+                return new AVLIntPair(this, 0);
+            }
+
+            AVLIntPair P = R.delete(Tree);
+            R = P.avl;
+            h = P.value;
+        }
+        else {
+
+            if (L == null) {
+
+                return new AVLIntPair(R, -1);
+            }
+
+            if (R == null) {
+
+                return new AVLIntPair(L, -1);
+            }
+
+            AVL T = R.Min();
+
+            this.color = T.color;
+            this.zone = T.zone;
+            this.axis = T.axis;
+            this.lineCut = T.lineCut;
+
+            AVLIntPair P = R.delete_minimum();
+            R = P.avl;
+            h = P.value;
+        }
+
+        if (h == 0) {
+
+            return new AVLIntPair(this, 0);
+        }
+
+        balance += h;
+        balanceAVL();
+
+        if (balance == 0) {
+
+            return new AVLIntPair(this, -1);
+        }
+
+        return new AVLIntPair(this, 0);
     }
 
-    public AVLIntPair delete_minimum(AVL Tree)
-    {
+    public AVLIntPair delete_minimum() {
 
-        return null;
+        int h;
+
+        if (L == null) {
+
+            return new AVLIntPair(R, -1);
+        }
+
+        AVLIntPair P = L.delete_minimum();
+        L = P.avl;
+        h = - P.value;
+
+        if (h == 0) {
+
+            return new AVLIntPair(this, 0);
+        }
+
+        balance += h;
+        balanceAVL();
+
+        if (balance == 0) {
+
+            return new AVLIntPair(this, -1);
+        }
+
+        return new AVLIntPair(this, 0);
     }
 }

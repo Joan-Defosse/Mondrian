@@ -169,6 +169,7 @@ public class Painter {
     public static AVL generateRandomTree(int height, int width, Settings settings) {
 
         AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
+        T.setBalance(0);
 
         cutLeaf(T, settings);
 
@@ -373,8 +374,10 @@ public class Painter {
         L = new AVL(colorL, zoneL);
         R = new AVL(colorR, zoneR);
 
-        T.setL(L);
-        T.setR(R);
+
+
+        T.add(L);
+        T.add(R);
     }
 
     private static void fill(Image image, AVL T) {
