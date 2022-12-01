@@ -7,17 +7,28 @@ public class Settings {
 
     // PRIVATE ATTRIBUTES ===================================== //
 
-    private int nbLeaves;
-    private int minDimensionCut;
-    private double sameColorProb;
-    private double cutProportion;
+    private Integer lineWidth;
+    private Integer nbLeaves;
+    private Integer minDimensionCut;
+    private Double sameColorProb;
+    private Double cutProportion;
     private Shades shades;
     private Random randomizer;
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    public Settings(int nbLeaves, int minDimensionCut, double sameColorProb, double cutProportion, Shades shades, Random randomizer){
+    /*
+     * Constructeur de la classe Settings
+     * nbLeaves : le nombre maximum de feuille dans l'arbre
+     * mindimensionCut : dimension minimum d'une feuille 
+     * sameColorProb : la probabilité d'avoir la même couleur que la feuille père
+     * cutProportion : limite de coupe sur les bords
+     * shades : la palette de couleur
+     * randomizer : un nombre aléatoire
+     */
+    public Settings(Integer lineWidth, Integer nbLeaves, Integer minDimensionCut, Double sameColorProb, Double cutProportion, Shades shades, Random randomizer){
 
+        this.lineWidth = lineWidth;
         this.nbLeaves = nbLeaves;
         this.minDimensionCut = minDimensionCut;
         this.sameColorProb = sameColorProb;
@@ -28,11 +39,10 @@ public class Settings {
 
     // PUBLIC GETTERS ===================================== //
 
+    public int getLineWidth() { return lineWidth; }
     public int getNbLeaves() { return nbLeaves; }
     public int getMinDimensionCut() { return minDimensionCut; }
-    public double getSameColorProb() {
-        return sameColorProb;
-    }
+    public double getSameColorProb() { return sameColorProb; }
     public double getCutProportion() { return cutProportion; }
     public Shades getShades() { return shades; }
     public Random getRandomizer() { return randomizer; }

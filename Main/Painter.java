@@ -1,15 +1,18 @@
 package Main;
 
-import Tree.*;
-import Image.*;
-import Struct.*;
+import Tree.AVL;
+import Tree.Zone;
+import Image.Image;
+import Struct.PairBoolInt;
+import Struct.PairAVL;
+import Struct.Shades;
 import java.awt.Color;
 import java.util.Random;
 import java.util.Scanner;
 import java.io.IOException;
 
 /* Use these lines to compile and run :
-* javac Main/Painter.java Main/Settings.java Image/Image.java Tree/Tree.java Tree/Zone.java Struct/BoolIntPair.java Struct/Shades.java
+* javac Main/Painter.java Main/Settings.java Image/Image.java AVL/AVL.java AVL/Zone.java Struct/PairBoolInt.java Struct/Shades.java
 * java Main.Painter
 * */
 public class Painter {
@@ -18,31 +21,40 @@ public class Painter {
 
     public static void main(String[] args) {
 
-        Scanner input = new Scanner(System.in);
         Random randomizer;
-        Shades shades = null;
         Settings settings;
-        Tree T;
+        AVL T;
         Image image;
-        String answer, filename;
-        int strategy, seed, height, width, lineWidth, minDimensionCut, nbLeaves;
-        double sameColorProb, cutProportion;
+        Shades shades = Shades.PINK;
+        String filename = "failed_input";
+        Integer strategy = 1;
+        Integer seed = 2002;
+        Integer height = 2160;
+        Integer width = 4096;
+        Integer lineWidth = 20;
+        Integer minDimensionCut = 30;
+        Integer nbLeaves = 2000;
+        Double sameColorProb = 0.4;
+        Double cutProportion = 0.15;
 
-        System.out.println("Do you want to use your own settings (yes/*) ?");
-        answer = input.next();
+        Scanner input = new Scanner(System.in);
+        String answer;
+
+        System.out.print("Do you want to use your own settings (yes/*) ?");
+        answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
 
-            System.out.println("Filename (do not write '.png') :");
-            filename = input.next();
+            System.out.print("Filename (do not write '.png') :");
+            filename = input.nextLine();
 
-            System.out.println("Strategy (0 for default / * for something else) :");
-            strategy = input.nextInt();
+            System.out.print("Strategy (0 for default / * for something else) :");
+            strategy = Integer.parseInt(input.nextLine());
 
             if (strategy != 0) {
 
-                System.out.println("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
-                answer = input.next();
+                System.out.print("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
+                answer = input.nextLine();
                 shades = toShades(answer);
 
                 if (shades == null) {
@@ -52,82 +64,85 @@ public class Painter {
                 }
             }
 
-            System.out.println("Random Seed (> 0) :");
-            seed = input.nextInt();
+            System.out.print("Random Seed (> 0) :");
+            seed = Integer.parseInt(input.nextLine());
+
             while(seed <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Random Seed (> 0) :");
-                seed = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Random Seed (> 0) :");
+                seed = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Height (> 0) :");
-            height = input.nextInt();
+            System.out.print("Height (> 0) :");
+            height = Integer.parseInt(input.nextLine());
+
             while(height <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Height (> 0) :");
-                height = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Height (> 0) :");
+                height = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Width (> 0) :");
-            width = input.nextInt();
+            System.out.print("Width (> 0) :");
+            width = Integer.parseInt(input.nextLine());
+
             while(width <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Width (> 0) :");
-                width = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Width (> 0) :");
+                width = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Lines Width (> 0) :");
-            lineWidth = input.nextInt();
+            System.out.print("Lines Width (> 0) :");
+            lineWidth = Integer.parseInt(input.nextLine());
+
             while(lineWidth <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Lines Width (> 0) :");
-                lineWidth = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Lines Width (> 0) :");
+                lineWidth = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
-            minDimensionCut = input.nextInt();
+            System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
+            minDimensionCut = Integer.parseInt(input.nextLine());
+
             while(minDimensionCut <= lineWidth) {
-                System.err.println("--Error--");
-                System.out.println("Minimum Size to Cut a Dimension (> lineWidth) :");
-                minDimensionCut = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
+                minDimensionCut = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Number of Leaves / Rectangles (> 0) : ");
-            nbLeaves = input.nextInt();
+            System.out.print("Number of Leaves / Rectangles (> 0) : ");
+            nbLeaves = Integer.parseInt(input.nextLine());
+
             while(nbLeaves <= 0) {
-                System.err.println("--Error--");
-                System.out.println("Number of Leaves / Rectangles (> 0) : ");
-                nbLeaves = input.nextInt();
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Number of Leaves / Rectangles (> 0) : ");
+                nbLeaves = Integer.parseInt(input.nextLine());
             }
 
-            System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
-            sameColorProb = Double.parseDouble(input.next());
-            while(sameColorProb <= 0 || sameColorProb >= 1.0) {
-                System.err.println("--Error--");
-                System.out.println("Probabilty of same Color (0.0 <= x < 1.0) :");
-                sameColorProb = input.nextInt();
+            System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
+            sameColorProb = Double.parseDouble(input.nextLine());
+
+            while(sameColorProb < 0.0 || sameColorProb >= 1.0) {
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
+                sameColorProb = Double.parseDouble(input.nextLine());
             }
 
-            System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
-            cutProportion = Double.parseDouble(input.next());
-            while(cutProportion <= 0 || cutProportion >= 0.5) {
-                System.err.println("--Error--");
-                System.out.println("Forbidden proportion to cut (0.0 <= x < 0.5) :");
-                cutProportion = input.nextInt();
-            }
-        }
-        else {
+            System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+            cutProportion = Double.parseDouble(input.nextLine());
 
-            filename = "demo";
-            strategy = 1;
-            seed = 1006;
-            height = 1200;
-            width = 1800;
-            lineWidth = 10;
-            minDimensionCut = 20;
-            nbLeaves = 40;
-            sameColorProb = 0.4;
-            cutProportion = 0.2;
+            while(cutProportion < 0.0 || cutProportion >= 0.5) {
+
+                System.err.println("--> Error : please respect the precondtitions !");
+                System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+                cutProportion = Double.parseDouble(input.nextLine());
+            }
         }
 
         randomizer = new Random(seed);
@@ -135,22 +150,18 @@ public class Painter {
         if (strategy == 0) {
 
             shades = Shades.DEFAULT;
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
+            settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateRandomTree(height, width, settings);
         }
         else {
 
-            if (shades == null)
-                shades = Shades.GREEN;
-
-            settings = new Settings(nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
+            settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
             T = generateBetterRandomTree(height, width, settings);
         }
 
-
-        image = toImage(T, lineWidth, shades.lineColor);
+        image = toImage(T, width, height, lineWidth, shades.lineColor);
 
         try {
 
@@ -161,52 +172,105 @@ public class Painter {
             throw new RuntimeException(e);
         }
 
-        System.out.println("No build error. You can find your picture in the output directory.");
+        System.out.println("Thanks for using our generator !\nYou can find your picture in the output directory.");
     }
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
-    public static Tree generateRandomTree(int height, int width, Settings settings) {
+    /*
+     * Génère un arbre aléatoire 
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre 
+     */
+    public static AVL generateRandomTree(int height, int width, Settings settings) {
 
-        Tree T = new Tree(settings.getShades().colorA, new Zone(0, width, 0,  height));
+        AVL T = new AVL(settings.getShades().colorA, new Zone(0, width, 0,  height));
 
-        cutLeaf(T, settings);
+        PairAVL P = cutLeaf(T, settings);
+
+        T = T.delete(T).avl;
+
+        if (T == null) {
+
+            T = P.first;
+        }
+        else {
+
+            T = T.add(P.first).avl;
+        }
+
+        T = T.add(P.second).avl;
 
         for(int i = 2; i < settings.getNbLeaves(); i++) {
 
-            Tree A = chooseLeaf(T, settings.getMinDimensionCut());
+            AVL A = chooseLeaf(T, settings.getMinDimensionCut());
 
             // si aucune feuille ne peut être découpée == fin du programme
             if(A == null)
                 return T;
 
-            cutLeaf(A, settings);
+            P = cutLeaf(A, settings);
+
+            T = T.delete(A).avl;
+
+            if (T == null) {
+
+                T = P.first;
+            }
+            else {
+
+                T = T.add(P.first).avl;
+            }
+
+            T = T.add(P.second).avl;
         }
+
         return T;
     }
 
-    public static Tree generateBetterRandomTree(int height, int width, Settings settings) {
+    /*
+     * Génère un arbre aléatoire avec une procédure différente
+     * height : la hauteur de l'arbre
+     * width : la largeur de l'arbre
+     * settings : les paramètres de l'arbre
+     * Retourne un arbre
+     */
+    public static AVL generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
 
-    public static Image toImage(Tree T, int lineWidth, Color lineColor) {
+    /*
+     * Créer une image à partir d'un arbre donné 
+     * T : l'arbre selectionné
+     * lineWidth : la largeur de la ligne
+     * lineColor : la couleur de la ligne
+     * Retourne l'image finale
+     */
+    public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor) {
 
-        Image image = new Image(T.getWidth(), T.getHeight());
+        Image image = new Image(width, height);
 
-        if (T.isLeaf()) {
+        if (T.getR() == null && T.getL() == null) {
 
             image.setRectangle(0, image.width(), 0 , image.height(), T.getColor());
         }
         else {
 
+            image.setRectangle(0, image.width(), 0 , image.height(), lineColor);
             fill(image, T);
-            addLineCut(image, T, lineWidth, lineColor);
         }
 
         return image;
     }
 
+    /*
+     * Définit la palette de couleur 
+     * name : le nom de la palette
+     * Retourne la palette de couleur
+     */
     public static Shades toShades(String name) {
 
         if(name.equalsIgnoreCase("default"))
@@ -235,42 +299,35 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
-    private static Tree chooseLeaf(Tree T, int minDimensionCut) {
+    /*
+     * Choisi la feuille de l'arbre qui sera divisée 
+     * T : l'arbre choisi
+     * minDimensionCut : la dimension de coupe minimale
+     * Retourne la feuille à diviser
+     */
+    private static AVL chooseLeaf(AVL T, int minDimensionCut) {
 
-        if(T.isLeaf()) {
+        AVL M = T.Max();
 
-            if((T.getHeight() < minDimensionCut) || (T.getWidth() < minDimensionCut))
-                return null;
-
-            return T;
-        }
-
-        Tree L = chooseLeaf(T.getL(), minDimensionCut);
-        Tree R = chooseLeaf(T.getR(), minDimensionCut);
-
-        if(R != null && L != null){
-
-            if(L.getWeight() > R.getWeight())
-                return L;
-
-            return R;
-        }
-
-        if(R == null && L == null)
+        if((M.getHeight() < minDimensionCut) || (M.getWidth() < minDimensionCut))
             return null;
 
-        if(R == null)
-            return L;
-
-        return R;
+        return M;
     }
 
-    private static BoolIntPair chooseDivision(int height, int width, Settings settings) {
+    /*
+     * Choisi les modalités de la division de la feuille 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * settings : les paramètres de l'arbre
+     * Retourne l'axe de division et les coordonnées de la division
+     */
+    private static PairBoolInt chooseDivision(int height, int width, Settings settings) {
 
         Boolean axis = chooseAxis(height, width, settings.getRandomizer());
         int result;
 
-        if (axis == Tree.AxisX) {
+        if (axis == AVL.AxisX) {
 
             result = chooseCoordinate(width, settings.getCutProportion(), settings.getRandomizer());
         }
@@ -279,9 +336,15 @@ public class Painter {
             result = chooseCoordinate(height, settings.getCutProportion(), settings.getRandomizer());
         }
 
-        return new BoolIntPair(axis, result);
+        return new PairBoolInt(axis, result);
     }
 
+    /*
+     * Choisi la couleur de la feuille
+     * FColor : la couleur de la feuille père
+     * settings : les paramètres de l'arbre
+     * Retourne la couleur de la feuille
+     */
     private static Color chooseColor(Color FColor, Settings settings) {
 
         double rand = settings.getRandomizer().nextDouble();
@@ -294,6 +357,13 @@ public class Painter {
         return FColor;
     }
 
+    /*
+     * Choisi l'axe de la division 
+     * height : la hauteur de la feuille
+     * width : la largeur de la feuille
+     * randomizer : le nombre aléatoire 
+     * Retourne AxisX ou AxisY 
+     */
     private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -301,12 +371,19 @@ public class Painter {
 
         if (rand > ProbaX) {
 
-            return Tree.AxisY;
+            return AVL.AxisY;
         }
 
-        return Tree.AxisX;
+        return AVL.AxisX;
     }
 
+    /*
+     * Choisi les coordonnées de la division
+     * size : taille de la feuille à diviser
+     * proportionCut : limite de la division
+     * randomizer : le nombre aléatoire 
+     * Retourne les coordonnées de la division
+     */
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
         double rand = randomizer.nextDouble();
@@ -315,6 +392,11 @@ public class Painter {
         return (int)(size * rand);
     }
 
+    /*
+     * Choisi une couleur aléatoirement
+     * settings : les paramètres de l'arbre
+     * Retourne une couleur aléatoire
+     */
     private static Color randomColor(Settings settings) {
 
         int rand = settings.getRandomizer().nextInt(5);
@@ -343,68 +425,58 @@ public class Painter {
         return result;
     }
 
-    private static void cutLeaf(Tree T, Settings settings) {
+    /*
+     * Définit la division d'une feuille
+     * T : l'arbre choisi
+     * settings : les paramètres de l'arbre
+     */
+    private static PairAVL cutLeaf(AVL T, Settings settings) {
 
-        Tree L, R;
-        Zone zoneL, zoneR;
-        Color colorL, colorR;
+        AVL A, B;
+        Zone zoneA, zoneB;
+        Color colorA, colorB;
 
-        BoolIntPair bip = chooseDivision(T.getHeight(), T.getWidth(), settings);
-        T.setAxis(bip.axis);
+        PairBoolInt P = chooseDivision(T.getHeight(), T.getWidth(), settings);
 
-        if (T.getAxis() == Tree.AxisX) {
+        if (P.bool == AVL.AxisX) {
 
-            T.setLineCut(T.getLeft() + bip.cut);
+            int lineCut = T.getLeft() + P.value;
+            int limit = lineCut - settings.getLineWidth();
 
-            zoneL = new Zone(T.getLeft(), T.getLineCut(), T.getDown(), T.getUp());
-            zoneR = new Zone(T.getLineCut(), T.getRight(), T.getDown(), T.getUp());
+            zoneA = new Zone(T.getLeft(), limit, T.getDown(), T.getUp());
+            zoneB = new Zone(lineCut, T.getRight(), T.getDown(), T.getUp());
         }
         else {
 
-            T.setLineCut(T.getDown() + bip.cut);
+            int lineCut = T.getDown() + P.value;
+            int limit = lineCut - settings.getLineWidth();
 
-            zoneL = new Zone(T.getLeft(), T.getRight(), T.getDown(), T.getLineCut());
-            zoneR = new Zone(T.getLeft(), T.getRight(), T.getLineCut(), T.getUp());
+            zoneA = new Zone(T.getLeft(), T.getRight(), T.getDown(), limit);
+            zoneB = new Zone(T.getLeft(), T.getRight(), lineCut, T.getUp());
         }
 
-        colorL = chooseColor(T.getColor(), settings);
-        colorR = chooseColor(T.getColor(), settings);
+        colorA = chooseColor(T.getColor(), settings);
+        colorB = chooseColor(T.getColor(), settings);
 
-        L = new Tree(colorL, zoneL);
-        R = new Tree(colorR, zoneR);
+        A = new AVL(colorA, zoneA);
+        B = new AVL(colorB, zoneB);
 
-        T.setL(L);
-        T.setR(R);
+        return new PairAVL(A, B);
     }
 
-    private static void fill(Image image, Tree T) {
+    /*
+     * Remplis le rectangle créer
+     * image : l'image créée
+     * T : l'arbre choisi
+     */
+    private static void fill(Image image, AVL T) {
 
-        if (T.isLeaf()){
+        image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
 
-            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
-        }
-        else {
-
+        if (T.getL() != null)
             fill(image, T.getL());
+
+        if(T.getR() != null)
             fill(image, T.getR());
-        }
-    }
-
-    private static void addLineCut(Image image, Tree T, int lineWidth, Color lineColor) {
-
-        if (!T.isLeaf()) {
-
-            if (T.getAxis() == Tree.AxisX) {
-
-                image.setRectangle(T.getLineCut() - lineWidth, T.getLineCut(), T.getDown(), T.getUp(), lineColor);
-            }
-            else {
-
-                image.setRectangle(T.getLeft(), T.getRight(), T.getLineCut() - lineWidth, T.getLineCut(), lineColor);
-            }
-
-            addLineCut(image, T.getL(), lineWidth, lineColor);
-            addLineCut(image, T.getR(), lineWidth, lineColor);
-        }
     }
 }
