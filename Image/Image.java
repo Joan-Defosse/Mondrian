@@ -45,24 +45,114 @@ public class Image
     }
   }
 
-  /*public void setCircle(int startX, int startY, Color color)
-  {
-    startY = 100;
-    for(int x = 16; x <= 63; x++){
-      for(int y = 100; y <= startY; y++){
-        setPixel(x, y, color);
+  /**
+   * Définit une zone en forme de diamant de la couleur demandée
+   * @param startX : limite à gauche
+   * @param endX : limite à droite
+   * @param startY : limite haute
+   * @param endY : limite basse
+   * @param color : couleur choisi
+   */
+  public void setDiamond(int startX, int endX, int startY, int endY, Color color) {
+
+    int width = endX-startX;
+    int height = endY-startY;
+
+    if(width < height) {
+      // HAUT GAUCHE
+      int nbPixel = 1;
+      for(int y = startY; y < (startY+endY)/2; y++) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int x = (startX+endX)/2; x > startX; x--) {
+          if (x >= (startX+endX)/2 - nbPixel){
+            setPixel(x, y, color);
+          }
+        }
       }
-      startY += 1;
+      //HAUT DROIT
+      nbPixel = 1;
+      for(int y = startY; y < (startY+endY)/2; y++) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int x = (startX+endX)/2; x < endX; x++) {
+          if (x <= (startX+endX)/2 + nbPixel){
+            setPixel(x, y, color);
+          }
+        }
+      }
+      //BAS GAUCHE
+      nbPixel = 1;
+      for(int y = endY - 1; y >= (startY+endY)/2; y--) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int x = (startX+endX)/2; x > startX; x--) {
+          if (x >= (startX+endX)/2 - nbPixel){
+            setPixel(x, y, color);
+          }
+        }
+      }
+      // BAS DROIT
+      nbPixel = 1;
+      for(int y = endY - 1; y >= (startY+endY)/2; y--) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int x = (startX+endX)/2; x < endX; x++) {
+          if (x <= (startX+endX)/2 + nbPixel){
+            setPixel(x, y, color);
+          }
+        }
+      }
     }
 
-    startX = 110;
-    for(int y = 100; y <= 147; y++) {
-      for (int x = 63; x <= startX; x++) {
-        setPixel(x, y, color);
+    else {
+      // HAUT GAUCHE
+      int nbPixel = 1;
+      for(int x = startX; x < (startX+endX)/2; x++) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int y = (startY+endY)/2; y > startY; y--) {
+          if (y >= (startY+endY)/2 - nbPixel){
+            setPixel(x, y, color);
+          }
+        }
       }
-      startX -= 1;
+      //BAS GAUCHE
+      nbPixel = 1;
+      for(int x = startX+1; x < (startX+endX)/2; x++) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int y = (startY+endY)/2; y < endY; y++) {
+          if (y <= (startY+endY)/2 + nbPixel){
+            System.out.println("bonjour");
+            setPixel(x, y, color);
+          }
+        }
+      }
+      // HAUT DROIT
+      nbPixel = 1;
+      for(int x = endX-1; x >= (startX+endX)/2; x--) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int y = (startY+endY)/2; y > startY; y--) {
+          if (y >= (startY+endY)/2 - nbPixel){
+            setPixel(x, y, color);
+          }
+        }
+      }
+      // BAS DROIT
+      nbPixel = 1;
+      for(int x = endX-1; x >= (startX+endX)/2; x--) {
+        if (nbPixel < (endX - startX)/2);
+        nbPixel++;
+        for (int y = (startY+endY)/2; y < endY; y++) {
+          if (y <= (startY+endY)/2 + nbPixel){
+            setPixel(x, y, color);
+          }
+        }
+      }
     }
-  }*/
+  }
 
   /**
    * Saves the image to a file, in PNG format
