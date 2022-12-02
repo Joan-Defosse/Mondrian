@@ -51,4 +51,37 @@ public class Shades {
         this.colorD = colorD;
         this.colorE = colorE;
     }
+
+    // PUBLIC FUNCTIONS ===================================== //
+
+    /*
+     * Convertit une chaîne de caractères en palette de couleurs.
+     * name : le nom du preset selectionné.
+     * Retourne la palette de couleur.
+     */
+    public static Shades toShades(String name) {
+
+        if(name.equalsIgnoreCase("default"))
+            return Shades.DEFAULT;
+
+        if(name.equalsIgnoreCase("pastel"))
+            return Shades.PASTEL;
+
+        if(name.equalsIgnoreCase("wood"))
+            return Shades.WOOD;
+
+        if(name.equalsIgnoreCase("green"))
+            return Shades.GREEN;
+
+        if(name.equalsIgnoreCase("blue"))
+            return Shades.BLUE;
+
+        if(name.equalsIgnoreCase("pink"))
+            return Shades.PINK;
+
+        if(name.equalsIgnoreCase("rainbow"))
+            return Shades.RAINBOW;
+
+        return null;
+    }
 }

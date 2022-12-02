@@ -12,11 +12,11 @@ public class Zone {
     // PUBLIC CONSTRUCTORS ===================================== //
 
     /*
-     * Constructeur de la classe Zone
-     * left : limite de la zone à gauche 
-     * right : limite de la zone à droite 
-     * down : limite basse de la zone
-     * up : limite haute de la zone
+     * Constructeur de la classe Zone.
+     * left : limite de la zone à gauche.
+     * right : limite de la zone à droite.
+     * down : limite basse de la zone.
+     * up : limite haute de la zone.
      */
     public Zone(int left, int right, int down, int up) {
 
@@ -46,23 +46,5 @@ public class Zone {
     public int getWidth() {
         return (right - left);
     }
-    public double getWeight() {
-
-        return (getWidth() * getHeight()) / Math.pow(getWidth() + getHeight(), 1.5);
-    }
-
-    // PUBLIC SETTERS ===================================== //
-
-    public void setLeft(int left) {
-        this.left = left;
-    }
-    public void setRight(int right) {
-        this.right = right;
-    }
-    public void setDown(int down) {
-        this.down = down;
-    }
-    public void setUp(int up) {
-        this.up = up;
-    }
+    public double getWeight() { return (getWidth() * getHeight()) / Math.pow(getWidth() + getHeight(), 1.5); }
 }

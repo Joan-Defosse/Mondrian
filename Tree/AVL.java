@@ -1,9 +1,14 @@
 package Tree;
 
 import Struct.PairAVLInt;
-
 import java.awt.Color;
 
+
+/*
+* Les AVL sont organisés en fonction de leur poids.
+* Le poids n'est pas un attribut mais est accessible avec la méthode getWeight().
+* Il est calculé à partir de la zone de l'AVL.
+* */
 public class AVL {
 
     // PUBLIC STATIC CONST ===================================== //
@@ -42,7 +47,6 @@ public class AVL {
     public int getUp() { return zone.getUp(); }
     public AVL getL() { return L; }
     public AVL getR() { return R; }
-
     public AVL Min() {
 
         if (L == null) {
@@ -52,6 +56,7 @@ public class AVL {
 
         return L.Min();
     }
+
     public AVL Max() {
 
         if (R == null) {
