@@ -18,13 +18,14 @@ public class Settings {
     // PUBLIC CONSTRUCTORS ===================================== //
 
     /*
-     * Constructeur de la classe Settings
-     * nbLeaves : le nombre maximum de feuille dans l'arbre
-     * mindimensionCut : dimension minimum d'une feuille 
-     * sameColorProb : la probabilité d'avoir la même couleur que la feuille père
-     * cutProportion : limite de coupe sur les bords
-     * shades : la palette de couleur
-     * randomizer : un nombre aléatoire
+     * Constructeur de la classe Settings.
+     * lineWidth : la largeur des lignes entre les zones.
+     * nbLeaves : le nombre maximum de zones (= noeuds dans notre AVL) de l'arbre.
+     * mindimensionCut : dimension minimum d'une zone.
+     * sameColorProb : la probabilité pour une zone d'avoir la même couleur que son père.
+     * cutProportion : limite de coupe sur les bords de zones.
+     * shades : la palette de couleurs.
+     * randomizer : un générateur d'aléatoire.
      */
     public Settings(Integer lineWidth, Integer nbLeaves, Integer minDimensionCut, Double sameColorProb, Double cutProportion, Shades shades, Random randomizer){
 
