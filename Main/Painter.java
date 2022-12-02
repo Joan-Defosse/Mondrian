@@ -186,7 +186,7 @@ public class Painter {
 
         // IMAGE GENERATION ===================================== //
 
-        image = toImage(T, width, height, lineWidth, shades.lineColor, shape);
+        image = toImage(T, width, height, shades.lineColor, shape);
 
         try {
 
@@ -203,7 +203,7 @@ public class Painter {
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
     /**
-     * Génère un AVL aléatoire contenant dans chaque noeud une zone et une image.
+     * Génère un AVL aléatoire contenant dans chaque noeud une zone et une couleur.
      * @param height : la hauteur de l'arbre
      * @param width : la largeur de l'arbre
      * @param settings : les paramètres de l'arbre
@@ -259,7 +259,7 @@ public class Painter {
     }
 
     /**
-     * Génère un arbre aléatoire contenant dans chaque noeud une zone et une image.
+     * Génère un arbre aléatoire contenant dans chaque noeud une zone et une couleur.
      * @param height : la hauteur de l'arbre
      * @param width : la largeur de l'arbre
      * @param settings : les paramètres de l'arbre
@@ -275,12 +275,11 @@ public class Painter {
      * @param T : l'arbre selectionné.
      * @param width : la largeur de l'image.
      * @param height : la hauteur de l'image.
-     * @param lineWidth : la largeur de la ligne.
      * @param lineColor : la couleur de la ligne.
      * @param shape : forme du visuel des feuilles de l'arbre
      * @return image générée.
      */
-    public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor, Shape shape) {
+    public static Image toImage(AVL T, int width, int height, Color lineColor, Shape shape) {
 
         Image image = new Image(width, height);
 
