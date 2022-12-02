@@ -27,22 +27,22 @@ public class Painter {
 
         // VARIABLES =============================================== //
 
-        Random randomizer;              // Génère des nombres pseudo-aléatoires.
-        Settings settings;              // Regroupe les paramètres pour alléger les signatures de fonctions.
-        AVL T;                          // Arbre contenant les zones et couleurs de l'image à générer.
-        Image image;                    // Le résultat de la génération.
-        Shape shape = Shape.Diamonds;   // La forme géométrique générée sur l'image.
-        Shades shades = Shades.PINK;    // Palette de couleurs, presets : (default, wood, pink, green, blue, rainbow, pastel).
-        String filename = "PINK_2002";  // Nom du fichier généré dans le dossier output.
-        Integer strategy = 1;           // strategy != 0 permet de choisir le preset de couleurs et les formes générées.
-        Integer seed = 2002;            // Graine aléatoire pour randomizer.
-        Integer height = 2160;          // Hauteur de l'image.
-        Integer width = 4096;           // Largeur de l'image.
-        Integer lineWidth = 10;         // Largeur de la ligne séparant les zones.
-        Integer minDimensionCut = 20;   // Taille minimum pour autoriser la découpe d'une zone.
-        Integer nbLeaves = 2000;        // Nombre de zones maximum.
-        Double sameColorProb = 0.4;     // Influe sur la proportion de zones voisines de la même couleur.
-        Double cutProportion = 0.15;    // Proportion de zone interdite en découpe.
+        Random randomizer;                  // Génère des nombres pseudo-aléatoires.
+        Settings settings;                  // Regroupe les paramètres pour alléger les signatures de fonctions.
+        AVL T;                              // Arbre contenant les zones et couleurs de l'image à générer.
+        Image image;                        // Le résultat de la génération.
+        Shape shape = Shape.Diamond;        // La forme géométrique générée sur l'image.
+        Shades shades = Shades.PINK;        // Palette de couleurs, presets : (default, wood, pink, green, blue, rainbow, pastel).
+        String filename = "Pink2002";       // Nom du fichier généré dans le dossier output.
+        Integer strategy = 1;               // strategy != 0 permet de choisir le preset de couleurs et les formes générées.
+        Integer seed = 2002;                // Graine aléatoire pour randomizer.
+        Integer height = 2160;              // Hauteur de l'image.
+        Integer width = 4096;               // Largeur de l'image.
+        Integer lineWidth = 10;             // Largeur de la ligne séparant les zones.
+        Integer minDimensionCut = 20;       // Taille minimum pour autoriser la découpe d'une zone.
+        Integer nbLeaves = 2000;            // Nombre de zones maximum.
+        Double sameColorProb = 0.4;         // Influe sur la proportion de zones voisines de la même couleur.
+        Double cutProportion = 0.15;        // Proportion de zone interdite en découpe.
 
         // COMMAND LINE INPUT ===================================== //
 
@@ -70,6 +70,16 @@ public class Painter {
 
                     System.out.println("Preset was not recognized, set as default.");
                     shades = Shades.DEFAULT;
+                }
+
+                System.out.print("Shape (rectangle, diamond) : ");
+                answer = input.nextLine();
+                shape = Shape.toShape(answer);
+
+                if (shape == null) {
+
+                    System.out.println("Shape was not recognized, set as Rectangle.");
+                    shape = Shape.Rectangle;
                 }
             }
 
@@ -175,7 +185,7 @@ public class Painter {
 
         // IMAGE GENERATION ===================================== //
 
-        image = toImage(T, width, height, lineWidth, shades.lineColor);
+        image = toImage(T, width, height, lineWidth, shades.lineColor, shape);
 
         try {
 
@@ -268,7 +278,7 @@ public class Painter {
      * lineColor : la couleur de la ligne.
      * Retourne l'image générée.
      */
-    public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor) {
+    public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor, Shape shape) {
 
         Image image = new Image(width, height);
 
@@ -281,7 +291,7 @@ public class Painter {
 
             // Création d'un fond pour faire apparaître les lignes entre les zones.
             image.setRectangle(0, image.width(), 0 , image.height(), lineColor);
-            fill(image, T);
+            fill(image, T, shape);
         }
 
         return image;
@@ -464,15 +474,22 @@ public class Painter {
      * image : l'image à remplir.
      * T : l'arbre la représentant.
      */
-    private static void fill(Image image, AVL T) {
+    private static void fill(Image image, AVL T, Shape shape) {
 
-        image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
+        if (shape == Shape.Diamond) {
+
+            image.setDiamond(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
+        }
+        else {
+
+            image.setRectangle(T.getLeft(), T.getRight(), T.getDown(), T.getUp(), T.getColor());
+        }
 
         // Remplissage via un parcours récursif.
         if (T.getL() != null)
-            fill(image, T.getL());
+            fill(image, T.getL(), shape);
 
         if(T.getR() != null)
-            fill(image, T.getR());
+            fill(image, T.getR(), shape);
     }
 }

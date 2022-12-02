@@ -124,7 +124,6 @@ public class Image
         nbPixel++;
         for (int y = (startY+endY)/2; y < endY; y++) {
           if (y <= (startY+endY)/2 + nbPixel){
-            System.out.println("bonjour");
             setPixel(x, y, color);
           }
         }
