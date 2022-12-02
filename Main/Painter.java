@@ -3,9 +3,9 @@ package Main;
 import Tree.AVL;
 import Tree.Zone;
 import Image.Image;
+import Image.Shades;
 import Struct.PairBoolInt;
 import Struct.PairAVL;
-import Struct.Shades;
 import java.awt.Color;
 import java.util.Random;
 import java.util.Scanner;
@@ -40,20 +40,20 @@ public class Painter {
         Scanner input = new Scanner(System.in);
         String answer;
 
-        System.out.print("Do you want to use your own settings (yes/*) ?");
+        System.out.print("Do you want to use your own settings (yes/*) ? ");
         answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
 
-            System.out.print("Filename (do not write '.png') :");
+            System.out.print("Filename (do not write '.png') : ");
             filename = input.nextLine();
 
-            System.out.print("Strategy (0 for default / * for something else) :");
+            System.out.print("Strategy (0 for default / * for something else) : ");
             strategy = Integer.parseInt(input.nextLine());
 
             if (strategy != 0) {
 
-                System.out.print("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) :");
+                System.out.print("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) : ");
                 answer = input.nextLine();
                 shades = toShades(answer);
 
@@ -64,53 +64,53 @@ public class Painter {
                 }
             }
 
-            System.out.print("Random Seed (> 0) :");
+            System.out.print("Random Seed (> 0) : ");
             seed = Integer.parseInt(input.nextLine());
 
             while(seed <= 0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Random Seed (> 0) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Random Seed (> 0) : ");
                 seed = Integer.parseInt(input.nextLine());
             }
 
-            System.out.print("Height (> 0) :");
+            System.out.print("Height (> 0) : ");
             height = Integer.parseInt(input.nextLine());
 
             while(height <= 0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Height (> 0) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Height (> 0) : ");
                 height = Integer.parseInt(input.nextLine());
             }
 
-            System.out.print("Width (> 0) :");
+            System.out.print("Width (> 0) : ");
             width = Integer.parseInt(input.nextLine());
 
             while(width <= 0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Width (> 0) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Width (> 0) : ");
                 width = Integer.parseInt(input.nextLine());
             }
 
-            System.out.print("Lines Width (> 0) :");
+            System.out.print("Lines Width (> 0) : ");
             lineWidth = Integer.parseInt(input.nextLine());
 
             while(lineWidth <= 0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Lines Width (> 0) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Lines Width (> 0) : ");
                 lineWidth = Integer.parseInt(input.nextLine());
             }
 
-            System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
+            System.out.print("Minimum Size to Cut a Dimension (> lineWidth) : ");
             minDimensionCut = Integer.parseInt(input.nextLine());
 
             while(minDimensionCut <= lineWidth) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Minimum Size to Cut a Dimension (> lineWidth) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Minimum Size to Cut a Dimension (> lineWidth) : ");
                 minDimensionCut = Integer.parseInt(input.nextLine());
             }
 
@@ -119,28 +119,28 @@ public class Painter {
 
             while(nbLeaves <= 0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
+                System.err.println("--> Error : please respect the preconditions !");
                 System.out.print("Number of Leaves / Rectangles (> 0) : ");
                 nbLeaves = Integer.parseInt(input.nextLine());
             }
 
-            System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
+            System.out.print("Probabilty of same Color (0.0 <= x < 1.0) : ");
             sameColorProb = Double.parseDouble(input.nextLine());
 
             while(sameColorProb < 0.0 || sameColorProb >= 1.0) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Probabilty of same Color (0.0 <= x < 1.0) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Probabilty of same Color (0.0 <= x < 1.0) : ");
                 sameColorProb = Double.parseDouble(input.nextLine());
             }
 
-            System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+            System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) : ");
             cutProportion = Double.parseDouble(input.nextLine());
 
             while(cutProportion < 0.0 || cutProportion >= 0.5) {
 
-                System.err.println("--> Error : please respect the precondtitions !");
-                System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) :");
+                System.err.println("--> Error : please respect the preconditions !");
+                System.out.print("Forbidden proportion to cut (0.0 <= x < 0.5) : ");
                 cutProportion = Double.parseDouble(input.nextLine());
             }
         }
@@ -172,7 +172,7 @@ public class Painter {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Thanks for using our generator !\nYou can find your picture in the output directory.");
+        System.out.println("\nThanks for using our generator !\nYou can find your picture in the output directory.");
     }
 
     // PUBLIC STATIC FUNCTIONS ===================================== //

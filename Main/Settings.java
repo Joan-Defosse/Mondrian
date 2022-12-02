@@ -1,7 +1,7 @@
 package Main;
 
 import java.util.Random;
-import Struct.Shades;
+import Image.Shades;
 
 public class Settings {
 

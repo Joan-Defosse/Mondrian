@@ -1,4 +1,4 @@
-package Struct;
+package Image;
  
 import java.awt.Color;
 
