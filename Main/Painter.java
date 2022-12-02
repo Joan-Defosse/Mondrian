@@ -31,8 +31,9 @@ public class Painter {
         Settings settings;              // Regroupe les paramètres pour alléger les signatures de fonctions.
         AVL T;                          // Arbre contenant les zones et couleurs de l'image à générer.
         Image image;                    // Le résultat de la génération.
+        Shape shape = Shape.Diamonds;   // La forme géométrique générée sur l'image.
         Shades shades = Shades.PINK;    // Palette de couleurs, presets : (default, wood, pink, green, blue, rainbow, pastel).
-        String filename = "PINK_2002"; // Nom du fichier généré dans le dossier output.
+        String filename = "PINK_2002";  // Nom du fichier généré dans le dossier output.
         Integer strategy = 1;           // strategy != 0 permet de choisir le preset de couleurs et les formes générées.
         Integer seed = 2002;            // Graine aléatoire pour randomizer.
         Integer height = 2160;          // Hauteur de l'image.
@@ -63,7 +64,7 @@ public class Painter {
 
                 System.out.print("Palette Preset (default, pastel, wood, green, blue, pink, rainbow) : ");
                 answer = input.nextLine();
-                shades = toShades(answer);
+                shades = Shades.toShades(answer);
 
                 if (shades == null) {
 
@@ -159,6 +160,7 @@ public class Painter {
 
         if (strategy == 0) {
 
+            shape = shape.Rectangle;
             shades = Shades.DEFAULT;
             settings = new Settings(lineWidth, nbLeaves, minDimensionCut, sameColorProb, cutProportion, shades, randomizer);
 
@@ -283,37 +285,6 @@ public class Painter {
         }
 
         return image;
-    }
-
-    /*
-     * Convertit une chaîne de caractères en palette de couleurs.
-     * name : le nom du preset selectionné.
-     * Retourne la palette de couleur.
-     */
-    public static Shades toShades(String name) {
-
-        if(name.equalsIgnoreCase("default"))
-            return Shades.DEFAULT;
-
-        if(name.equalsIgnoreCase("pastel"))
-            return Shades.PASTEL;
-
-        if(name.equalsIgnoreCase("wood"))
-            return Shades.WOOD;
-
-        if(name.equalsIgnoreCase("green"))
-            return Shades.GREEN;
-
-        if(name.equalsIgnoreCase("blue"))
-            return Shades.BLUE;
-
-        if(name.equalsIgnoreCase("pink"))
-            return Shades.PINK;
-
-        if(name.equalsIgnoreCase("rainbow"))
-            return Shades.RAINBOW;
-
-        return null;
     }
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
