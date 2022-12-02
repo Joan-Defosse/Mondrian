@@ -11,12 +11,12 @@ public class Zone {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    /*
-     * Constructeur de la classe Zone.
-     * left : limite de la zone à gauche.
-     * right : limite de la zone à droite.
-     * down : limite basse de la zone.
-     * up : limite haute de la zone.
+    /**
+     * Constructeur de la classe Zone
+     * @param left : limite de la zone à gauche
+     * @param right : limite de la zone à droite
+     * @param down : limite basse de la zone
+     * @param up : limite haute de la zone
      */
     public Zone(int left, int right, int down, int up) {
 

@@ -17,15 +17,15 @@ public class Settings {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    /*
-     * Constructeur de la classe Settings.
-     * lineWidth : la largeur des lignes entre les zones.
-     * nbLeaves : le nombre maximum de zones (= noeuds dans notre AVL) de l'arbre.
-     * mindimensionCut : dimension minimum d'une zone.
-     * sameColorProb : la probabilité pour une zone d'avoir la même couleur que son père.
-     * cutProportion : limite de coupe sur les bords de zones.
-     * shades : la palette de couleurs.
-     * randomizer : un générateur d'aléatoire.
+    /**
+     * Constructeur de la classe Settings
+     * @param lineWidth : la largeur des lignes entre les zones
+     * @param nbLeaves : le nombre maximum de zones (= noeuds dans notre AVL) de l'arbr
+     * @param minDimensionCut : dimension minimum d'une zone
+     * @param sameColorProb : la probabilité pour une zone d'avoir la même couleur que son père
+     * @param cutProportion : limite de coupe sur les bords de zones
+     * @param shades : la palette de couleurs
+     * @param randomizer : un générateur d'aléatoire
      */
     public Settings(Integer lineWidth, Integer nbLeaves, Integer minDimensionCut, Double sameColorProb, Double cutProportion, Shades shades, Random randomizer){
 

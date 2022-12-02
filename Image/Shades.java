@@ -37,10 +37,11 @@ public class Shades {
 
     // PUBLIC CONSTRUCTORS ===================================== //
 
-    /*
-     * Constructeur de la classe Shades 
-     * lineColor : la couleur des bordures
-     * colorA, colorB, colorC,  colorB, colorE: une couleur de la palette
+
+    /**
+     * Constructeur de la classe Shades
+     * @param lineColor : la couleur des bordures
+     * @param colorA,colorB,colorC,colorD,colorE : une couleur de la palette
      */
     public Shades(Color lineColor, Color colorA, Color colorB, Color colorC, Color colorD, Color colorE) {
 
@@ -54,10 +55,10 @@ public class Shades {
 
     // PUBLIC FUNCTIONS ===================================== //
 
-    /*
-     * Convertit une chaîne de caractères en palette de couleurs.
-     * name : le nom du preset selectionné.
-     * Retourne la palette de couleur.
+    /**
+     * Convertit une chaîne de caractères en palette de couleurs
+     * @param name : le nom du preset selectionné
+     * @return la palette de couleur
      */
     public static Shades toShades(String name) {
 

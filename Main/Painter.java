@@ -9,16 +9,17 @@ import java.util.Random;
 import java.util.Scanner;
 import java.io.IOException;
 
-/*
-* Ce programme est un générateur d'image utilisant de l'aléatoire. Vous pouvez modifier
-* les paramètres dans la fonction principale, ou bien à l'exécution depuis le terminal.
-* Réalisé par Hacala Maude et Défossé Joan.
-* Sujet de Vavrille Mathieu - Nantes Université.
-*
-* On utilisera ces commandes pour compiler et exécuter :
-* javac Main/*.java Image/*.java Struct/*.java Tree/*.java
-* java Main.Painter
-* */
+/**
+ * Ce programme est un générateur d'image utilisant de l'aléatoire. Vous pouvez modifier
+ * les paramètres dans la fonction principale, ou bien à l'exécution depuis le terminal.
+ *
+ * Réalisé par Hacala Maude et Défossé Joan.
+ * Sujet de Vavrille Mathieu - Nantes Université.
+ *
+ * On utilisera ces commandes pour compiler et exécuter :
+ * javac Main/*.java Image/*.java Struct/*.java Tree/*.java
+ * java Main.Painter
+ */
 public class Painter {
 
     // PUBLIC STATIC MAIN ===================================== //
@@ -201,12 +202,12 @@ public class Painter {
 
     // PUBLIC STATIC FUNCTIONS ===================================== //
 
-    /*
+    /**
      * Génère un AVL aléatoire contenant dans chaque noeud une zone et une image.
-     * height : la hauteur de l'arbre
-     * width : la largeur de l'arbre
-     * settings : les paramètres de l'arbre
-     * Retourne l'AVL généré.
+     * @param height : la hauteur de l'arbre
+     * @param width : la largeur de l'arbre
+     * @param settings : les paramètres de l'arbre
+     * @return AVL généré
      */
     public static AVL generateRandomTree(int height, int width, Settings settings) {
 
@@ -257,26 +258,27 @@ public class Painter {
         return T;
     }
 
-    /*
+    /**
      * Génère un arbre aléatoire contenant dans chaque noeud une zone et une image.
-     * height : la hauteur de l'arbre
-     * width : la largeur de l'arbre
-     * settings : les paramètres de l'arbre
-     * Retourne l'AVL généré.
+     * @param height : la hauteur de l'arbre
+     * @param width : la largeur de l'arbre
+     * @param settings : les paramètres de l'arbre
+     * @return AVL généré
      */
     public static AVL generateBetterRandomTree(int height, int width, Settings settings) {
 
         return generateRandomTree(height, width, settings);
     }
 
-    /*
+    /**
      * Crée une image à partir d'un arbre donné.
-     * width : la largeur de l'image.
-     * height : la hauteur de l'image.
-     * T : l'arbre selectionné.
-     * lineWidth : la largeur de la ligne.
-     * lineColor : la couleur de la ligne.
-     * Retourne l'image générée.
+     * @param T : l'arbre selectionné.
+     * @param width : la largeur de l'image.
+     * @param height : la hauteur de l'image.
+     * @param lineWidth : la largeur de la ligne.
+     * @param lineColor : la couleur de la ligne.
+     * @param shape : forme du visuel des feuilles de l'arbre
+     * @return image générée.
      */
     public static Image toImage(AVL T, int width, int height, int lineWidth, Color lineColor, Shape shape) {
 
@@ -299,11 +301,11 @@ public class Painter {
 
     // PRIVATE STATIC FUNCTIONS ===================================== //
 
-    /*
+    /**
      * Choisit la feuille de l'arbre qui sera divisée.
-     * T : l'arbre à diviser.
-     * minDimensionCut : la dimension de coupe minimale autorisée.
-     * Retourne la feuille à diviser.
+     * @param T : l'arbre à diviser.
+     * @param minDimensionCut : la dimension de coupe minimale autorisée.
+     * @return la feuille à diviser.
      */
     private static AVL chooseLeaf(AVL T, int minDimensionCut) {
 
@@ -316,12 +318,12 @@ public class Painter {
         return M;
     }
 
-    /*
-     * Choisit les modalités de la division de la feuille .
-     * height : la hauteur de la feuille
-     * width : la largeur de la feuille
-     * settings : les paramètres de l'arbre
-     * Retourne l'axe de la division et les coordonnées de la coupe.
+    /**
+     * Choisit les modalités de la division de la feuille.
+     * @param height : la hauteur de la feuille
+     * @param width : la largeur de la feuille
+     * @param settings : les paramètres de l'arbre
+     * @return l'axe de la division et les coordonnées de la coupe.
      */
     private static PairBoolInt chooseDivision(int height, int width, Settings settings) {
 
@@ -341,11 +343,11 @@ public class Painter {
         return new PairBoolInt(axis, lineCut);
     }
 
-    /*
+    /**
      * Choisit une couleur pour une feuille.
-     * FColor : la couleur de son père.
-     * settings : les paramètres de l'arbre.
-     * Retourne la couleur choisie.
+     * @param FColor : la couleur de son père.
+     * @param settings : les paramètres de l'arbre.
+     * @return la couleur choisie.
      */
     private static Color chooseColor(Color FColor, Settings settings) {
 
@@ -359,12 +361,12 @@ public class Painter {
         return FColor;
     }
 
-    /*
+    /**
      * Choisit l'axe de la division, AxisX (true) et AxisY (false) facilitent la compréhension.
-     * height : la hauteur de la feuille.
-     * width : la largeur de la feuille.
-     * randomizer : le générateur d'aléatoire.
-     * Retourne l'axe choisi.
+     * @param height : la hauteur de la feuille.
+     * @param width : la largeur de la feuille.
+     * @param randomizer : le générateur d'aléatoire.
+     * @return l'axe choisi.
      */
     private static Boolean chooseAxis(int height, int width, Random randomizer) {
 
@@ -379,12 +381,12 @@ public class Painter {
         return AVL.AxisX;
     }
 
-    /*
+    /**
      * Choisit les coordonnées de la division.
-     * size : taille de la feuille à diviser.
-     * proportionCut : zone interdite à diviser.
-     * randomizer : générateur d'aléatoire.
-     * Retourne les coordonnées choisies.
+     * @param size : taille de la feuille à diviser.
+     * @param proportionCut : zone interdite à diviser.
+     * @param randomizer : générateur d'aléatoire.
+     * @return les coordonnées choisies
      */
     private static int chooseCoordinate(int size, double proportionCut, Random randomizer) {
 
@@ -394,10 +396,10 @@ public class Painter {
         return (int)(size * rand);
     }
 
-    /*
+    /**
      * Choisit une couleur aléatoirement.
-     * settings : les paramètres du programme.
-     * Retourne une couleur aléatoire.
+     * @param settings : les paramètres du programme.
+     * @return une couleur aléatoire.
      */
     private static Color randomColor(Settings settings) {
 
@@ -428,11 +430,11 @@ public class Painter {
         return result;
     }
 
-    /*
+    /**
      * Divise une zone en deux.
-     * T : l'arbre à diviser.
-     * settings : les paramètres du programme.
-     * Retourne les deux AVL fils créés.
+     * @param T : l'arbre à diviser.
+     * @param settings : les paramètres du programme.
+     * @return les deux AVL fils créés.
      */
     private static PairAVL cutLeaf(AVL T, Settings settings) {
 
@@ -469,10 +471,11 @@ public class Painter {
         return new PairAVL(A, B);
     }
 
-    /*
+    /**
      * Remplis l'image de formes géométriques.
-     * image : l'image à remplir.
-     * T : l'arbre la représentant.
+     * @param image : l'image à remplir.
+     * @param T : l'arbre la représentant.
+     * @param shape : forme du visuel des feuilles de l'arbre
      */
     private static void fill(Image image, AVL T, Shape shape) {
 
